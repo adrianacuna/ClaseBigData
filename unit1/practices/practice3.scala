@@ -12,3 +12,21 @@ if (esPrimo == 0) {
   val primo = s"El numero ${numero} es primo"
   println(primo)
 }
+
+//3. Dada la variable bird = "tweet", utiliza interpolacion de string para
+//   imprimir "Estoy ecribiendo un tweet"
+val bird = "tweet"
+val message = s"Estoy ecribiendo un ${bird}"
+
+
+//4. Dada la variable mensaje = value utiliza slilce para extraer la
+//   secuencia "Luke"
+val st = "Hola Luke yo soy tu padre!"
+st slice  (5,9)
+
+//5. Cual es la diferencia entre value y una variable en scala?
+//value es inmutable y var puede cambiar su valor
+
+//6. Dada la tupla (2,4,5,1,2,3,3.1416,23) regresa el numero 3.1416
+val my_tup = (2,4,5,1,2,3,3.1416,23) 
+my_tup._7
