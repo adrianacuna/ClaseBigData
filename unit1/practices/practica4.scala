@@ -23,3 +23,8 @@ lista.toSet
 //"Jose", 20, "Luis", 24, "Ana", 23, "Susana", "27"
 
 val nombres = collection.mutable.Map(("Jose", 20), ("Luis", 24), ("Ana", 23), ("Susana",27))
+//  6 a . Imprime todas la llaves del mapa
+nombres.keys
+//  6 b . Agrega el siguiente valor al mapa("Miguel", 23)
+nombres += ("Miguel" -> 23)
+nombres.values
