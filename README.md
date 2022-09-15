@@ -5,13 +5,13 @@ The following function named **isEven** receive one integer *number* to return a
 
 The returning result is a validation if the number provided is divisible by two.
 
-``def isEven(num:Int): Boolean = {
-     return num%2 == 0
-}
-def isEven(num:Int): num%2 == 0
-println(isEven(6))
-println(isEven(3))``
+``def isEven(num:Int): Boolean = {<br>
+     return num%2 == 0<br>
+}<br>
+def isEven(num:Int): num%2 == 0<br>
+println(isEven(6))<br>
+println(isEven(3))<br>``
 
-**Print result**
-*println(isEven(6)) -> true*
-*println(isEven(3)) -> false*
+**Print result**<br>
+*println(isEven(6)) -> true*<br>
+*println(isEven(3)) -> false*<br>
