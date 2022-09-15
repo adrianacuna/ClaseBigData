@@ -83,8 +83,6 @@ listEvens(l2)
 ```
 **Print result**<br>
 *println(afortunado(af)) -> 29*<br>
-<<<<<<< HEAD
-=======
 
 ###### 5. This function is evaluated if the string parameter is a palindrome, if the string is able to read in reverse and the string is not deformed. 
 
@@ -107,4 +105,3 @@ The reverse is the correct function to read the string parameter from the right 
 *println(palindromo(palabra)) -> true*<br>
 *println(palindromo(palabra2)) -> true*<br>
 *println(palindromo(palabra3)) -> false*<br>
->>>>>>> 3fb0f00749d7c39473afaf0617486c00453f73e4
