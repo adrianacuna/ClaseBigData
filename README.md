@@ -37,3 +37,25 @@ The returning result is a validation if the number provided is divisible by two.
 ```
 **Print result**<br>
 *println(afortunado(af)) -> 29*<br>
+
+###### 5. This function is evaluated if the string parameter is a palindrome, if the string is able to read in reverse and the string is not deformed. 
+
+The reverse is the correct function to read the string parameter from the right to the left. 
+
+```
+  def palindromo(palabra:String):Boolean ={
+      return (palabra == palabra.reverse)
+  }
+
+  val palabra = "OSO"
+  val palabra2 = "ANNA"
+  val palabra3 = "JUAN"
+
+  println(palindromo(palabra))
+  println(palindromo(palabra2))
+  println(palindromo(palabra3))
+```
+**Print result**<br>
+*println(palindromo(palabra)) -> true*<br>
+*println(palindromo(palabra2)) -> true*<br>
+*println(palindromo(palabra3)) -> false*<br>
