@@ -14,7 +14,6 @@ The returning result is a validation if the number provided is divisible by two.
   println(isEven(3))
 ```
 
-<<<<<<< HEAD
 **Print result**
 *println(isEven(6)) -> true*
 *println(isEven(3)) -> false*
@@ -61,7 +60,6 @@ listEvens(l2)
 *7 is odd*
 *8 is even*
 *res9: String = Done*
-=======
 **Print result**<br>
 *println(isEven(6)) -> true*<br>
 *println(isEven(3)) -> false*<br>
@@ -85,4 +83,3 @@ listEvens(l2)
 ```
 **Print result**<br>
 *println(afortunado(af)) -> 29*<br>
->>>>>>> dcaaf726eaf90d8a9d152c8d69b8942a54a10888
