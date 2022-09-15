@@ -4,12 +4,12 @@ The following function named **isEven** receive one integer *number* to return a
 
 The returning result is a validation if the number provided is divisible by two.
 
-`def isEven(num:Int): Boolean = {
+``def isEven(num:Int): Boolean = {
      return num%2 == 0
 }
 def isEven(num:Int): num%2 == 0
 println(isEven(6))
-println(isEven(3))`
+println(isEven(3))``
 
 **Print result**
 *println(isEven(6)) -> true*
