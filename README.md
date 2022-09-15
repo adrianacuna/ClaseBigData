@@ -1,5 +1,6 @@
 # ClaseBigData from unit1 branch
-##Practice 5. Code analysis for scala basics in Session_6.scala teacher file. 
+## Practice 5. Code analysis for scala basics in Session_6.scala teacher file. 
+
 The following function named **isEven** receive one integer *number* to return a *boolean* result. 
 
 The returning result is a validation if the number provided is divisible by two.
