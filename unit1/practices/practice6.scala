@@ -7,6 +7,22 @@ def fib (n:Int): Int = {
     }
 }
 
+// Algorithm 2
+def fib2( n : Int ) : Int = {
+  var a = 0
+  var b = 1
+  var i = 0	  
+ 
+  while( i < n ) {
+    val c = a + b
+    a = b
+    b = c
+    i = i + 1
+  } 
+  return a
+}
+
+
 // Algorithm 5
 def fib5 (n:Int): Int = {
     if ( n < 2 ){
