@@ -7,8 +7,8 @@ def fib (n:Int): Int = {
     }
 }
 
-// Algorithm 2
-def fib2( n : Int ) : Int = {
+// Algorithm 3
+def fib3( n : Int ) : Int = {
   var a = 0
   var b = 1
   var i = 0	  
@@ -17,6 +17,20 @@ def fib2( n : Int ) : Int = {
     val c = a + b
     a = b
     b = c
+    i = i + 1
+  } 
+  return b
+}
+
+// Algorithm 4
+def fib4( n : Int ) : Int = {
+  var a = 0
+  var b = 1
+  var i = 0	  
+ 
+  while( i < n ) {
+    b = b + a
+    a = b - a
     i = i + 1
   } 
   return a
