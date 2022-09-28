@@ -1,4 +1,5 @@
 import org.apache.spark.sql.SparkSession
+package org.apache.spark.sql
 
 val spark = SparkSession.builder().getOrCreate()
 
@@ -36,6 +37,53 @@ val df2 = df.select(col("Car_Model").as("Name Car"),
                     col("disp").as("Available"))
 df2.show(5)
 
-//
+//Chain of multiple dataframes operations
+//Filter by Car_Model that begin with "Ma" and mpg is equal to 21
+df
+    .filter("Car_Model like 'Ma%'")
+    .filter("mpg == 21 ")
+    .show(10)
 
 
+//We can create subsets of df data, using filter operartion to assign the values
+// Using filter method slice our dataframe df with rows where the hp are equal o greater than 110 and less or equal than 180
+val dfhpSubSet = df.filter("hp >= 110 and hp <= 180").toDF()
+  dfhpSubSet.show()
+
+
+//Spark support a number of join, in this example we us right outer join
+//right outer join by joining df and dfhpSubSet
+df
+    .join(dfhpSubSet, Seq("cyl"), "right_outer")
+    .show(10)
+
+//With the dataframe df and the function avg, we calculate the average of the hp column
+df
+    .select(avg("hp"))
+    .show()
+
+//Whit the function max we can find car with the best mpg (miles per gallon)
+df
+    .select(max("mpg"))
+    .show()
+
+//For advanced statistics spark have stat functions, with freqItems method we can find 
+//frequent items in the cyl column.
+val dfFreCyl = df.stat.freqItems(Seq("cyl"))
+  dfFreCyl.show()
+
+// We can check if a column exist with the fucntion containts
+//the column method can be used to return an array of type string
+val dratColumnExists = df.columns.contains("drat")
+  println(s"La columna drat existe = $dratColumnExists")
+
+//Using distinct we can remove duplicate rows on dataframe 
+val distinctDF = df.distinct()
+println("Distinct count: "+distinctDF.count())
+distinctDF.show(false)
+
+//Alternatively we can also use dropDuplicates function wich create
+// a new dataframe without duplicate rows
+val df3 = df.dropDuplicates()
+println("Distinct count: "+df2.count())
+df2.show(false)
