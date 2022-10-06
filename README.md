@@ -4,17 +4,17 @@
 + Practice 2
 + Practice 3
 + Practice 4
-+ Practice 5
++ [Practice 5](#practice-5-code-analysis-for-scala-basics-in-session6scala-teacher-file)
 ## Practice 1. Git basis. 
 ##### Practice to unclock the first level for the Introduction to GitCommits. 
 [Learn Git Branching ](https://learngitbranching.js.org/)
 **Result**
-![Introduction Sequence](/assets/images/Practice1Image.png "Introduction Sequence")
+![Introduction Sequence](/unit1/assets/images/Practice1Image.png "Introduction Sequence")
 
 ## Practice 2.. 
 ## Practice 3.. 
 ## Practice 4.. 
-## [Practice 5](#practice-5) Code analysis for scala basics in Session_6.scala teacher file. 
+## Practice 5. Code analysis for scala basics in Session_6.scala teacher file. 
 
 ###### 1. The following function named **isEven** receive one integer *number* to return a *boolean* result. 
 
