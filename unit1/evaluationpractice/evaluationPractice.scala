@@ -42,5 +42,7 @@ df.filter($"Close" < 600).count()
 df.filter($"High" > 500).count()* 1.0/ df.count()*100
 
 //c) ¿Cuál es la correlación de Pearson entre columna “High” y la columna “Volumen”?
+df.select(corr("High","Volume")).show()
+
 //d) ¿Cuál es el máximo de la columna “High” por año?
 //e) ¿Cuál es el promedio de la columna “Close” para cada mes del calendario?
