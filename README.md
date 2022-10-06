@@ -94,7 +94,7 @@ This question is just a open response.
     The value is inmutable and the variable can chage the value. 
 ```
 
-## Practice 4.  Scala Collections. 
+## Practice 4. Scala Collections. 
 ###### 1. Create a list called **"Lista"** with the elements **"rojo"**, **"blanco"** and **"negro"**.
 
 Just create a variable and put into the List the main values.
