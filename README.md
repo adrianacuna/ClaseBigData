@@ -4,7 +4,7 @@
 + Practice 2
 + Practice 3
 + Practice 4
-+ [Practice 5](#practice-5-code-analysis-for-scala-basics-in-session6scala-teacher-file)
++ [Practice 5](#practice-5-code-analysis-for-scala-basics-in-session_6scala-teacher-file)
 ## Practice 1. Git basis. 
 ##### Practice to unclock the first level for the Introduction to GitCommits. 
 [Learn Git Branching ](https://learngitbranching.js.org/)
