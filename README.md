@@ -87,7 +87,7 @@ For the string variable we need to slice the text from character 5 to 9 and prin
 ```
 ###### 5. What is the difference between **value** and **variable** in Scala?
 
-This question is just open responses.
+This question is just a open response.
 
 **Response**
 ```sh
