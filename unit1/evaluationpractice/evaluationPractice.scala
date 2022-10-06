@@ -30,8 +30,10 @@ df.orderBy($"Open".desc).show(1)
 //9. ¿Cuál es el significado de la columna Cerrar “Close” en el contexto de información financiera, explíquelo no hay que codificar nada?
 //Respuesta: Close hace referencia al precio de una acción individual cuando la bolsa de valores cierra en un día en especifico
 
-
 //10. ¿Cuál es el máximo y mínimo de la columna “Volumen”?
+df.groupBy("Volume").max().show(1)
+df.groupBy("Volume").min().show(1)
+
 //11. Con Sintaxis Scala/Spark $ conteste lo siguiente:
 //a) ¿Cuántos días fue la columna “Close” inferior a $ 600?
 //b) ¿Qué porcentaje del tiempo fue la columna “High” mayor que $ 500?
