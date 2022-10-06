@@ -1,5 +1,20 @@
 # ClaseBigData from unit1 branch
-## Practice 5. Code analysis for scala basics in Session_6.scala teacher file. 
+### Content menu
++ [Practice 1](#practice-1-git-basis)
++ Practice 2
++ Practice 3
++ Practice 4
++ Practice 5
+## Practice 1. Git basis. 
+##### Practice to unclock the first level for the Introduction to GitCommits. 
+[Learn Git Branching ](https://learngitbranching.js.org/)
+**Result**
+![Introduction Sequence](/assets/images/Practice1Image.png "Introduction Sequence")
+
+## Practice 2.. 
+## Practice 3.. 
+## Practice 4.. 
+## [Practice 5](#practice-5) Code analysis for scala basics in Session_6.scala teacher file. 
 
 ###### 1. The following function named **isEven** receive one integer *number* to return a *boolean* result. 
 
@@ -9,7 +24,6 @@ The returning result is a validation if the number provided is divisible by two.
   def isEven(num:Int): Boolean = {
       return num%2 == 0
   }
-  def isEven(num:Int): num%2 == 0
   println(isEven(6))
   println(isEven(3))
 ```
