@@ -34,6 +34,7 @@
 
 ###### 1. Create an algorithm in scala to calculate the **radius** for a circle.
 
+We need to define the main circurference for the circle and defice the PI variable to creater the formula and calculate the radius. 
 ```sh
     val circ = 25
     val pi = 3.1416
@@ -44,6 +45,55 @@
 ```sh
     res: String = El radio del circulo es 3.97886427298192
 ```
+###### 2. Create an algorithm in scala to determine if the number is **prime number**.
+
+Creation for the main variables and define the number, create the IF conditions to validate if the result is prime number and print line. 
+```sh
+    val numero = 10
+    val esPrimo = numero % 2
+    if (esPrimo == 0) {
+        val primo = s"El numero ${numero} es par"
+        println(primo)
+    } else {
+        val primo = s"El numero ${numero} es primo"
+        println(primo)
+    }
+```
+**Print result**
+```sh
+    El numero 10 es par
+```
+###### 3. For the static variable **bird = "tweet"**, use the string interpolation to print **"Estoy escribiendo un tweet"**.
+
+We need to concatenate the bird variable string in the main message defined in the variable.
+```sh
+    val bird = "tweet"
+    val message = s"Estoy ecribiendo un ${bird}"
+```
+**Print result**
+```sh
+    message: String = Estoy ecribiendo un tweet
+```
+###### 4. For the static variable **message**, use slice to extract the text **"Luke"**.
+
+For the string variable we need to slice the text from character 5 to 9 and printed.
+```sh
+    val st = "Hola Luke yo soy tu padre!"
+    st slice  (5,9)
+```
+**Print result**
+```sh json
+    res12: String = Luke
+```
+###### 5. What is the difference between **value** and **variable** in Scala?
+
+This question is just open responses.
+
+**Response**
+```sh
+    The value is inmutable and the variable can chage the value. 
+```
+
 ## Practice 4.. 
 ## Practice 5. Code analysis for scala basics in Session_6.scala teacher file. 
 
