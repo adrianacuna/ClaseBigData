@@ -15,20 +15,20 @@
 ## Practice 2. Complete Git flow and structure. 
 ###### View folders structure for the unit 1 into Git respository
 
-**Unit 1**
-***evaluationnpractice
-******evaluationPractice.scala
-***homeworks
-*******homework1.scala
-***practices
-*******practice1.scala
-*******practice2.scala
-*******practice3.scala
-*******practice4.scala
-*******practice5.scala
-*******practice6.scala
-*******practice7.scala
-***README.md
+- **Unit 1**
+    - evaluationnpractice
+        - evaluationPractice.scala
+    - homeworks
+        - homework1.scala
+    - practices
+        - practice1.scala
+        - practice2.scala
+        - practice3.scala
+        - practice4.scala
+        - practice5.scala
+        - practice6.scala
+        - practice7.scala
+    - README.md
 
 ## Practice 3.. 
 ## Practice 4.. 
