@@ -36,6 +36,8 @@ df.groupBy("Volume").min().show(1)
 
 //11. Con Sintaxis Scala/Spark $ conteste lo siguiente:
 //a) ¿Cuántos días fue la columna “Close” inferior a $ 600?
+df.filter($"Close" < 600).count()
+
 //b) ¿Qué porcentaje del tiempo fue la columna “High” mayor que $ 500?
 //c) ¿Cuál es la correlación de Pearson entre columna “High” y la columna “Volumen”?
 //d) ¿Cuál es el máximo de la columna “High” por año?
