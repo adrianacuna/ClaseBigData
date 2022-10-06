@@ -3,7 +3,7 @@
 + [Practice 1](#practice-1-git-basis)
 + [Practice 2](#practice-2-complete-git-flow-and-structure)
 + [Practice 3](#practice-3-scala-basis)
-+ Practice 4
++ [Practice 4](#practice-4-scala-collections)
 + [Practice 5](#practice-5-code-analysis-for-scala-basics-in-session_6scala-teacher-file)
 ## Practice 1. Git basis. 
 ###### Practice to unclock the first level for the Introduction to GitCommits. 
@@ -94,7 +94,101 @@ This question is just a open response.
     The value is inmutable and the variable can chage the value. 
 ```
 
-## Practice 4.. 
+## Practice 4.  Scala Collections. 
+###### 1. Create a list called **"Lista"** with the elements **"rojo"**, **"blanco"** and **"negro"**.
+
+Just create a variable and put into the List the main values.
+```sh
+    var lista = List("Rojo", "Blanco", "Negro")
+    lista
+```
+**Print result**
+```json
+    lista: List[String] = List(Rojo, Blanco, Negro)
+```
+###### 2. Modified the previous list called **"Lista"** and add 5 elements **"verde"**, **"amarillo"**, **"naranja"**, and **"perla"**.
+
+Insert the new elements in the list using ++= to insert the values.
+```sh
+    lista.++=(List("verde", "amarillo", "azul","naranja","perla"))
+    println(lista)
+```
+**Print result**
+```json
+    List(Rojo, Blanco, Negro, verde, amarillo, azul, naranja, perla)
+```
+###### 3. Consult elements from previous list called **"Lista"** get the elements **"verde"**, **"amarillo"**, and **"azul"**.
+
+For the main variable lista, consult the indexes values for the values specified.
+```sh
+    lista(3)
+    lista(4)
+    lista(5)
+```
+**Print result**
+```
+    scala> lista(3)
+    res19: String = verde
+
+    scala> lista(4)
+    res20: String = amarillo
+
+    scala> lista(5)
+    res21: String = azul
+```
+###### 4. Create an **array number** ranged from **1 to 1000** with jumps by **5**.
+
+We need to use the function range and specify the range numbers and the jumps.
+```sh
+    Array.range(1, 10000, 5)
+```
+**Print result**
+```
+    res22: Array[Int] = Array(1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56, 61, 66, 71, 76, 81, 86, 91, 96, 101, 106, 111, 116, 121, 126, 131, 136, 141, 146, 151, 156, 161, 166, 171, 176, 181, 186, 191, 196, 201, 206, 211, 216, 221, 226, 231, 236, 241, 246, 251, 256, 261, 266, 271, 276, 281, 286, 291, 296, 301, 306, 311, 316, 321, 326, 331, 336, 341, 346, 351, 356, 361, 366, 371, 376, 381, 386, 391, 396, 401, 406, 411, 416, 421, 426, 431, 436, 441, 446, 451, 456, 461, 466, 471, 476, 481, 486, 491, 496, 501, 506, 511, 516, 521, 526, 531, 536, 541, 546, 551, 556, 561, 566, 571, 576, 581, 586, 591, 596, 601, 606, 611, 616, 621, 626, 631, 636, 641, 646, 651, 656, 661, 666, 671, 676, 681, 686, 691, 696, 701, 706, 711, 716, 721, 726, 731, 736, 741, 746, 751, 756, 761, 76...
+```
+###### 5. Get the unique elements for the list Lista(1,3,3,4,6,7,3,7) using the set conversion.
+
+Create a list variable and define the default values, we need to use the distinct method to remove duplications and set the list.
+```sh
+    val lista= List(1,3,3,4,6,7,3,7)
+    val uniq = lista.distinct
+    lista.toSet
+```
+**Print result**
+```
+    res23: scala.collection.immutable.Set[Int] = Set(1, 6, 7, 3, 4)
+```
+###### 6. Create a mutable map called **"nombres"** and add the values **"Jose", 20, "Luis", 24, "Ana", 23, "Susana", "27"**.
+
+Define the mutable list using the collection methods and add the main values with the ages.
+```sh
+    val nombres = collection.mutable.Map(("Jose", 20), ("Luis", 24), ("Ana", 23), ("Susana",27))
+```
+**Print result**
+```
+    nombres: scala.collection.mutable.Map[String,Int] = Map(Susana -> 27, Ana -> 23, Luis -> 24, Jose -> 20)
+```
+###### 6a. In the previoud map called **"nombres"** print all **key values**.
+
+Just print the key values using the method keys for a map collection.
+```sh
+    nombres.keys
+```
+**Print result**
+```
+   res24: Iterable[String] = Set(Susana, Ana, Luis, Jose)
+```
+###### 6b. In the previoud map called **"nombres"** add a new value **"Miguel", 23**.
+
+Using the adding way of += to the main map to include the new values. 
+```sh
+    nombres += ("Miguel" -> 23)
+    nombres.values
+```
+**Print result**
+```
+   res26: Iterable[Int] = HashMap(27, 23, 23, 24, 20)
+```
 ## Practice 5. Code analysis for scala basics in Session_6.scala teacher file. 
 
 ###### 1. The following function named **isEven** receive one integer *number* to return a *boolean* result. 
@@ -242,3 +336,11 @@ The reverse is the correct function to read the string parameter from the right 
 *println(palindromo(palabra)) -> true*<br>
 *println(palindromo(palabra2)) -> true*<br>
 *println(palindromo(palabra3)) -> false*<br>
+
+
+## Practice 6. 
+
+## Practice 7.
+
+
+## Evaluation unit 1.  
