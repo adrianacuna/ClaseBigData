@@ -45,4 +45,10 @@ df.filter($"High" > 500).count()* 1.0/ df.count()*100
 df.select(corr("High","Volume")).show()
 
 //d) ¿Cuál es el máximo de la columna “High” por año?
+val df2 = df.withColumn("Year", year(df("Date")))
+val dfamax = df2.select($"Year",$"High").groupBy("Year").max()
+val max = dfamax.select($"Year",$"max(High)")
+max.orderBy("Year").show()
+
+
 //e) ¿Cuál es el promedio de la columna “Close” para cada mes del calendario?
