@@ -50,5 +50,7 @@ val dfamax = df2.select($"Year",$"High").groupBy("Year").max()
 val max = dfamax.select($"Year",$"max(High)")
 max.orderBy("Year").show()
 
-
 //e) ¿Cuál es el promedio de la columna “Close” para cada mes del calendario?
+val df3 = df.withColumn("Month", month(df("Date")))
+val dfavgs = df3.groupBy("Month").mean()
+dfavgs.select($"Month", $"avg(Close)").show()
