@@ -2,7 +2,7 @@
 ### Content menu
 + [Practice 1](#practice-1-git-basis)
 + [Practice 2](#practice-2-complete-git-flow-and-structure)
-+ Practice 3
++ [Practice 3](#practice-3-scala-basis)
 + Practice 4
 + [Practice 5](#practice-5-code-analysis-for-scala-basics-in-session_6scala-teacher-file)
 ## Practice 1. Git basis. 
@@ -30,7 +30,20 @@
         - practice7.scala
     - README.md
 
-## Practice 3.. 
+## Practice 3. Scala basis. 
+
+###### 1. Create an algorithm in scala to calculate the **radius** for a circle.
+
+```sh
+    val circ = 25
+    val pi = 3.1416
+    val rad = (circ/(2 * pi))
+    val res = s"El radio del circulo es ${rad}"
+```
+**Print result**
+```sh
+    res: String = El radio del circulo es 3.97886427298192
+```
 ## Practice 4.. 
 ## Practice 5. Code analysis for scala basics in Session_6.scala teacher file. 
 
