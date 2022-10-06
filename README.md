@@ -1,17 +1,35 @@
 # ClaseBigData from unit1 branch
 ### Content menu
 + [Practice 1](#practice-1-git-basis)
-+ Practice 2
++ [Practice 2](#practice-2-complete-git-flow-and-structure)
 + Practice 3
 + Practice 4
 + [Practice 5](#practice-5-code-analysis-for-scala-basics-in-session_6scala-teacher-file)
 ## Practice 1. Git basis. 
-##### Practice to unclock the first level for the Introduction to GitCommits. 
+###### Practice to unclock the first level for the Introduction to GitCommits. 
 [Learn Git Branching ](https://learngitbranching.js.org/)
+
 **Result**
 ![Introduction Sequence](/unit1/assets/images/Practice1Image.png "Introduction Sequence")
 
-## Practice 2.. 
+## Practice 2. Complete Git flow and structure. 
+###### View folders structure for the unit 1 into Git respository
+
+**Unit 1**
+***evaluationnpractice
+******evaluationPractice.scala
+***homeworks
+*******homework1.scala
+***practices
+*******practice1.scala
+*******practice2.scala
+*******practice3.scala
+*******practice4.scala
+*******practice5.scala
+*******practice6.scala
+*******practice7.scala
+***README.md
+
 ## Practice 3.. 
 ## Practice 4.. 
 ## Practice 5. Code analysis for scala basics in Session_6.scala teacher file. 
