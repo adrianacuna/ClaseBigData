@@ -358,7 +358,57 @@ The reverse is the correct function to read the string parameter from the right 
     scala>   println(palindromo(palabra3))
     false
 ```
-## Practice 6. 
+## Practice 6. Implementation of Fibonacci series algorithms according to pseudo code from Wikipedia link
+
+#### 1. For the first algorithms we implemented the pseudo code using descending recursive Fibonacci method.
+
+First defined a method with if else cycle, if variable n is lower than 2, return n, in other case do the operation fib (n-1) + fib(n-2) Recursively
+
+``sh
+// Algorithm 1
+def fib (n:Int): Int = {
+    if ( n < 2 ){
+        return n
+    } else {
+        return fib (n - 1) + fib (n - 2)
+    }
+}
+```
+
+**Print result**
+```sh
+    scala> fib(11)
+    res0: Int: 99
+```
+
+#### 3. For this algorith we implemented the pseudo code using the iterative version to calcule fibbonacci series.
+
+In this case we defined three variables wit the following values, a=0, b=1 and i=0. Next defined a while cycle with condition (1 < n) using variable i as counter, inside the cycle created a new variable c = a + b, next assigned the value of b to a, and to b the value of c, finally do the increment i iteratively.
+
+
+``sh
+// Algorithm 3
+def fib3( n : Int ) : Int = {
+  var a = 0
+  var b = 1
+  var i = 0	  
+ 
+  while( i < n ) {
+    val c = a + b
+    a = b
+    b = c
+    i = i + 1
+  } 
+  return b
+}
+```
+
+**Print result**
+```sh
+    scala> fib(15)
+    res1: Int: 987
+```
+
 
 ## Practice 7.
 
