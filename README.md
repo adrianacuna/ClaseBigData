@@ -360,11 +360,11 @@ The reverse is the correct function to read the string parameter from the right 
 ```
 ## Practice 6. Implementation of Fibonacci series algorithms according to pseudo code from Wikipedia link
 
-#### 1. For the first algorithms we implemented the pseudo code using descending recursive Fibonacci method.
+#### Algorith 1: For the first algorithms we implemented the pseudo code using descending recursive Fibonacci method.
 
 First defined a method with if else cycle, if variable n is lower than 2, return n, in other case do the operation fib (n-1) + fib(n-2) Recursively
 
-``sh
+```sh
 // Algorithm 1
 def fib (n:Int): Int = {
     if ( n < 2 ){
@@ -381,12 +381,12 @@ def fib (n:Int): Int = {
     res0: Int: 99
 ```
 
-#### 3. For this algorith we implemented the pseudo code using the iterative version to calcule fibbonacci series.
+#### 2. Algorith 3: For this algorith we implemented the pseudo code using the iterative version to calcule fibbonacci series.
 
 In this case we defined three variables wit the following values, a=0, b=1 and i=0. Next defined a while cycle with condition (1 < n) using variable i as counter, inside the cycle created a new variable c = a + b, next assigned the value of b to a, and to b the value of c, finally do the increment i iteratively.
 
 
-``sh
+```sh
 // Algorithm 3
 def fib3( n : Int ) : Int = {
   var a = 0
@@ -405,8 +405,64 @@ def fib3( n : Int ) : Int = {
 
 **Print result**
 ```sh
-    scala> fib(15)
+    scala> fib3(15)
     res1: Int: 987
+```
+
+#### Algorithm 4: This algorithm calculate the Fibonacci series whit iterative method with two variables.
+
+This is very similar to the past one, we defined 3 variables a=0, b=1 and i=0, next with a while cycle with the condition i< n, assign to b the sum of b+a and assign to the result of subtraction b-a, finally do the increment i iteratively
+
+
+```sh
+// Algorithm 4
+def fib4( n : Int ) : Int = {
+  var a = 0
+  var b = 1
+  var i = 0	  
+ 
+  while( i < n ) {
+    b = b + a
+    a = b - a
+    i = i + 1
+  } 
+  return a
+}
+```
+
+**Print result**
+```sh
+    scala> fib4(55)
+    res2: Int: 2144908973
+```
+
+#### Algorithm 5: In this case the algorithm calculate the Fibonacci series using a vector.
+
+As same in algorithm 1, we use and if cycle to return n if the number is lower than 2, if not did the following assignment using a vector. variable a equal to a new vector with range (0, n) + 1, b = Vector (0) and c = Vector (1). finally with a for cycle define the variable vector whit the following assignment Vector (i - 1) + Vector (i - 2) and return vector.
+
+
+```sh
+// Algorithm 5
+def fib5 (n:Int): Int = {
+    if ( n < 2 ){
+        return n
+    } else {
+        var a = Vector(Range(0, n) + 1)
+        var b = Vector(0) 
+        var c = Vector(1)
+        var range = Range(2, n + 1)
+        for ( i <- range ){
+            var vector = Vector(i - 1) + Vector(i - 2)
+            return vector
+        }
+    }
+}
+```
+
+**Print result**
+```sh
+    scala> fib5(55)
+    res3: Int: 1497
 ```
 
 
