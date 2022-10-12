@@ -5,6 +5,9 @@
 + [Practice 3](#practice-3-scala-basis)
 + [Practice 4](#practice-4-scala-collections)
 + [Practice 5](#practice-5-code-analysis-for-scala-basics-in-session_6scala-teacher-file)
++ [Practice 6](#practice-6-Implementation-of-Fibonacci-series-algorithms)
++ [Practice 7](#practice-7-Aggregate-function-for-spark-dataframes)
+
 ## Practice 1. Git basis. 
 ##### Practice to unclock the first level for the Introduction to GitCommits. 
 [Learn Git Branching ](https://learngitbranching.js.org/)
@@ -358,7 +361,7 @@ The reverse is the correct function to read the string parameter from the right 
     scala>   println(palindromo(palabra3))
     false
 ```
-## Practice 6. Implementation of Fibonacci series algorithms according to pseudo code from Wikipedia link
+## Practice 6. Implementation of Fibonacci series algorithms.
 
 #### Algorithm 1: For the first algorithms we implemented the pseudo code using descending recursive Fibonacci method.
 
