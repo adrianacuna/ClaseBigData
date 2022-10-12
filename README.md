@@ -360,7 +360,7 @@ The reverse is the correct function to read the string parameter from the right 
 ```
 ## Practice 6. Implementation of Fibonacci series algorithms according to pseudo code from Wikipedia link
 
-#### Algorith 1: For the first algorithms we implemented the pseudo code using descending recursive Fibonacci method.
+#### Algorithm 1: For the first algorithms we implemented the pseudo code using descending recursive Fibonacci method.
 
 First defined a method with if else cycle, if variable n is lower than 2, return n, in other case do the operation fib (n-1) + fib(n-2) Recursively
 
@@ -381,7 +381,7 @@ def fib (n:Int): Int = {
     res0: Int: 99
 ```
 
-#### 2. Algorith 3: For this algorith we implemented the pseudo code using the iterative version to calcule fibbonacci series.
+#### 2. Algorithm 3: For this algorith we implemented the pseudo code using the iterative version to calcule fibbonacci series.
 
 In this case we defined three variables wit the following values, a=0, b=1 and i=0. Next defined a while cycle with condition (1 < n) using variable i as counter, inside the cycle created a new variable c = a + b, next assigned the value of b to a, and to b the value of c, finally do the increment i iteratively.
 
@@ -466,7 +466,116 @@ def fib5 (n:Int): Int = {
 ```
 
 
-## Practice 7.
+## Practice 7. Aggregate function for spark dataframes
+
+In this practice we test some Data frame function with spark using a csv. file
+
+##### Filter all cars with the specific HP between 100 and 120 and group by VS. Display all the filters and collect in array and count the values
+
+```sh
+val filterHP = df.filter($"hp" >= "100" && $"hp" <= "120")
+.groupBy($"vs".desc)
+
+filterHP.show()
+filterHP.collect()
+filterHP.count()
+```
+
+##### Sum for all disp values of disp column. 
+##### Display 10 records for the sumDisp. 
+
+```sh
+val sumDisp = df.select(sumDistinct("disp"))
+sumDisp.show(10)
+```
+
+##### Search value passing the specific value in arguments to the function and search the values matching to return the values in true.
+
+```sh
+def searchMPG(value: Double): Unit = {
+    val searching = df.select($"mpg" === value)
+    searching.show()
+}
+searchMPG(22.8)
+```
+##### Select and rename colums as a easy select 
+
+```sh
+val df2 = df.select(col("Car_Model").as("Name Car"),
+                    col("mpg").as("Miles per gallon"),
+                    col("cyl").as("Cylindres"),
+                    col("hp").as("HP Force"),
+                    col("disp").as("Available"))
+df2.show(5)
+```
+
+##### Chain of multiple dataframes operations
+##### Filter by Car_Model that begin with "Ma" and mpg is equal to 21
+
+```sh
+df
+    .filter("Car_Model like 'Ma%'")
+    .filter("mpg == 21 ")
+    .show(10)
+```
+
+
+##### We can create subsets of df data, using filter operartion to assign the values using filter method slice our dataframe df with rows where the hp are equal o greater than 110 and less or equal than 180 val dfhpSubSet = df.filter("hp >= 110 and hp <= 180").toDF()
+
+```sh
+dfhpSubSet.show()
+```
+
+
+##### Spark support a number of join, in this example we us right outer join right outer join by joining df and dfhpSubSet
+
+```sh
+df
+    .join(dfhpSubSet, Seq("cyl"), "right_outer")
+    .show(10)
+```
+##### With the dataframe df and the function avg, we calculate the average of the hp column
+
+```sh
+df
+    .select(avg("hp"))
+    .show()
+```
+
+##### Whit the function max we can find car with the best mpg (miles per gallon)
+
+```sh
+df
+    .select(max("mpg"))
+    .show()
+```
+##### For advanced statistics spark have stat functions, with freqItems method we can find frequent items in the cyl column.
+
+```sh
+val dfFreCyl = df.stat.freqItems(Seq("cyl"))
+  dfFreCyl.show()
+```
+##### We can check if a column exist with the fucntion containts the column method can be used to return an array of type string
+
+```sh
+val dratColumnExists = df.columns.contains("drat")
+  println(s"La columna drat existe = $dratColumnExists")
+```
+
+##### Using distinct we can remove duplicate rows on dataframe 
+
+```sh
+val distinctDF = df.distinct()
+println("Distinct count: "+distinctDF.count())
+distinctDF.show(false)
+```
+##### Alternatively we can also use dropDuplicates function wich create a new dataframe without duplicate rows
+
+```sh
+val df3 = df.dropDuplicates()
+println("Distinct count: "+df2.count())
+df2.show(false)
+```
 
 
 ## Evaluation unit 1.  
