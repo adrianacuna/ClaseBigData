@@ -7,6 +7,7 @@
 + [Practice 5](#practice-5-code-analysis-for-scala-basics-in-session_6scala-teacher-file)
 + [Practice 6](#practice-6-Implementation-of-Fibonacci-series-algorithms)
 + [Practice 7](#practice-7-Aggregate-function-for-spark-dataframes)
++ [Evaluation Unit 1](#evaluation-unit-1)
 
 ## Practice 1. Git basis. 
 ##### Practice to unclock the first level for the Introduction to GitCommits. 
@@ -799,3 +800,253 @@ only showing top 20 rows
 
 
 ## Evaluation unit 1.  
+
+## Evaluation Practice
+#### 1. Start a Spark session
+
+```sh
+import org.apache.spark.sql.SparkSession
+
+val spark = SparkSession.builder().getOrCreate()
+```
+**Print result**
+```sh
+spark: org.apache.spark.sql.SparkSession = org.apache.spark.sql.SparkSession@56a640a2
+```
+
+#### 2. Load the file Netflix Stock CSV to a dataframe named df.
+
+```sh
+val df = spark.read.option("header", "true").option("inferSchema","true")csv("Netflix_2011_2016.csv")
+
+import spark.implicits._
+```
+
+**Print result**
+```sh
+df: org.apache.spark.sql.DataFrame = [Date: timestamp, Open: double ... 5 more fields]
+```
+
+#### 3. What are the column names?
+
+```sh
+df.columns
+```
+
+**Print result**
+```sh
+res0: Array[String] = Array(Date, Open, High, Low, Close, Volume, Adj Close)
+```
+
+#### 4. How is the scheme?
+
+```sh
+df.printSchema()
+```
+
+**Print result**
+```sh
+root
+ |-- Date: timestamp (nullable = true)
+ |-- Open: double (nullable = true)
+ |-- High: double (nullable = true)
+ |-- Low: double (nullable = true)
+ |-- Close: double (nullable = true)
+ |-- Volume: integer (nullable = true)
+ |-- Adj Close: double (nullable = true)
+```
+
+#### 5. Print the first 5 rows.
+
+```sh
+df.show(5)
+```
+
+**Print result**
+```sh
++-------------------+----------+------------------+----------+-----------------+---------+------------------+
+|               Date|      Open|              High|       Low|            Close|   Volume|         Adj Close|
++-------------------+----------+------------------+----------+-----------------+---------+------------------+
+|2011-10-24 00:00:00|119.100002|120.28000300000001|115.100004|       118.839996|120460200|         16.977142|
+|2011-10-25 00:00:00| 74.899999|         79.390001| 74.249997|        77.370002|315541800|11.052857000000001|
+|2011-10-26 00:00:00|     78.73|         81.420001| 75.399997|        79.400002|148733900|         11.342857|
+|2011-10-27 00:00:00| 82.179998| 82.71999699999999| 79.249998|80.86000200000001| 71190000|11.551428999999999|
+|2011-10-28 00:00:00| 80.280002|         84.660002| 79.599999|84.14000300000001| 57769600|             12.02|
++-------------------+----------+------------------+----------+-----------------+---------+------------------+
+only showing top 5 rows
+```
+
+#### 6. Use describe () method to learn about the dataframe.
+
+```sh
+df.describe().show()
+```
+
+**Print result**
+```sh
++-------+------------------+------------------+------------------+------------------+--------------------+------------------+
+|summary|              Open|              High|               Low|             Close|              Volume|         Adj Close|
++-------+------------------+------------------+------------------+------------------+--------------------+------------------+
+|  count|              1259|              1259|              1259|              1259|                1259|              1259|
+|   mean|230.39351086656092|233.97320872915006|226.80127876251044|  230.522453845909|2.5634836060365368E7|55.610540036536875|
+| stddev|164.37456353264244| 165.9705082667129| 162.6506358235739|164.40918905512854| 2.306312683388607E7|35.186669331525486|
+|    min|         53.990001|         55.480001|             52.81|              53.8|             3531300|          7.685714|
+|    max|        708.900017|        716.159996|        697.569984|        707.610001|           315541800|        130.929993|
++-------+------------------+------------------+------------------+------------------+--------------------+------------------+
+```
+
+#### 7. Create a new dataframe with a new column called "HV Ratio" wich is the relationship between price from column "High" with the column "Volume" of stocks traded in one day.
+
+```sh
+val df2 = df.withColumn("HV Ratio", df("High")*df("Volume"))
+```
+
+**Print result**
+```sh
+scala> df2.show(5df2.show())
++-------------------+-----------------+------------------+----------+-----------------+---------+------------------+--------------------+
+|               Date|             Open|              High|       Low|            Close|   Volume|         Adj Close|            HV Ratio|
++-------------------+-----------------+------------------+----------+-----------------+---------+------------------+--------------------+
+|2011-10-24 00:00:00|       119.100002|120.28000300000001|115.100004|       118.839996|120460200|         16.977142|1.448895321738060...|
+|2011-10-25 00:00:00|        74.899999|         79.390001| 74.249997|        77.370002|315541800|11.052857000000001|2.505086381754179...|
+|2011-10-26 00:00:00|            78.73|         81.420001| 75.399997|        79.400002|148733900|         11.342857| 1.21099142867339E10|
+|2011-10-27 00:00:00|        82.179998| 82.71999699999999| 79.249998|80.86000200000001| 71190000|11.551428999999999| 5.888836586429999E9|
+|2011-10-28 00:00:00|        80.280002|         84.660002| 79.599999|84.14000300000001| 57769600|             12.02| 4.890774451539201E9|
++-------------------+-----------------+------------------+----------+-----------------+---------+------------------+--------------------+
+only showing top 5 rows
+```
+
+#### 8.  What day had the higher peak for column "Open"?
+
+```sh
+df.orderBy($"Open".desc).show(1)
+```
+
+**Print result**
+```sh
++-------------------+----------+----------+----------+----------+--------+----------+
+|               Date|      Open|      High|       Low|     Close|  Volume| Adj Close|
++-------------------+----------+----------+----------+----------+--------+----------+
+|2015-07-14 00:00:00|708.900017|711.449982|697.569984|702.600006|19736500|100.371429|
++-------------------+----------+----------+----------+----------+--------+----------+
+only showing top 1 row
+```
+
+#### 9. What is the meaning of the "Close" clumn, in the context of financial information?
+Respuesta: Close hace referencia al precio de una acción individual cuando la bolsa de valores cierra en un día en especifico
+
+#### 10. What is the max and min of "Volume" column?
+
+```sh
+df.groupBy("Volume").max().show(1)
+df.groupBy("Volume").min().show(1)
+```
+
+**Print result**
+```sh
+scala> df.groupBy("Volume").max().show(1)
++--------+---------+---------+---------+----------+-----------+-----------------+
+|  Volume|max(Open)|max(High)| max(Low)|max(Close)|max(Volume)|   max(Adj Close)|
++--------+---------+---------+---------+----------+-----------+-----------------+
+|59170300|67.059999|68.199999|65.120002| 66.560001|   59170300|9.508572000000001|
++--------+---------+---------+---------+----------+-----------+-----------------+
+only showing top 1 row
+
+
+scala> df.groupBy("Volume").min().show(1)
++--------+---------+---------+---------+----------+-----------+-----------------+
+|  Volume|min(Open)|min(High)| min(Low)|min(Close)|min(Volume)|   min(Adj Close)|
++--------+---------+---------+---------+----------+-----------+-----------------+
+|59170300|67.059999|68.199999|65.120002| 66.560001|   59170300|9.508572000000001|
++--------+---------+---------+---------+----------+-----------+-----------------+
+only showing top 1 row
+```
+
+
+#### 11. With Syntax Scala/Spark anwser the following:
+##### a) How many day the column "Close" was lower tan $600?
+        
+```sh
+df.filter($"Close" < 600).count()
+```
+**Print result**
+```sh
+res12: Long = 1218
+```
+
+###### b) What is the percentage of the time that the column "High" was greater tan $500?
+            
+```sh
+df.filter($"High" > 500).count()* 1.0/ df.count()*100
+```
+**Print result**
+```sh
+res13: Double = 4.924543288324067
+```
+
+##### c) What is the pearson corralation between "Hight" and "Volume" columns?
+        
+```sh
+df.select(corr("High","Volume")).show()
+```
+
+**Print result**
+```sh
++--------------------+
+|  corr(High, Volume)|
++--------------------+
+|-0.20960233287942157|
++--------------------+
+```
+
+
+##### d) What is the max value per year for the column "High"?
+        
+```sh
+val df2 = df.withColumn("Year", year(df("Date")))
+val dfamax = df2.select($"Year",$"High").groupBy("Year").max()
+val max = dfamax.select($"Year",$"max(High)")
+max.orderBy("Year").show()
+```
+
+**Print result**
+```sh
++----+------------------+
+|Year|         max(High)|
++----+------------------+
+|2011|120.28000300000001|
+|2012|        133.429996|
+|2013|        389.159988|
+|2014|        489.290024|
+|2015|        716.159996|
+|2016|129.28999299999998|
++----+------------------+
+```
+
+##### e) What is the average per month for the "Close" column?
+        
+```sh
+val df3 = df.withColumn("Month", month(df("Date")))
+val dfavgs = df3.groupBy("Month").mean()
+dfavgs.select($"Month", $"avg(Close)").show()
+```
+
+**Print result**
+```sh
++-----+------------------+
+|Month|        avg(Close)|
++-----+------------------+
+|   12| 199.3700942358491|
+|    1|212.22613874257422|
+|    6| 295.1597153490566|
+|    3| 249.5825228971963|
+|    5|264.37037614150944|
+|    9|206.09598121568627|
+|    4|246.97514271428562|
+|    8|195.25599892727263|
+|    7|243.64747528037387|
+|   10|205.93297300900903|
+|   11| 194.3172275445545|
+|    2| 254.1954634020619|
++-----+------------------+
+```
