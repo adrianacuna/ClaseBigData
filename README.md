@@ -801,7 +801,6 @@ only showing top 20 rows
 
 ## Evaluation unit 1.  
 
-## Evaluation Practice
 #### 1. Start a Spark session
 
 ```sh
