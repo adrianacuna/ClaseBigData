@@ -1023,7 +1023,9 @@ df.select(corr("High","Volume")).show()
 ##### d) What is the max value per year for the column "High"?
 
 For this finals exercise we need to combine function used in this evaluation, withColumns, Group By, max and defined new dataframes to get the disired daataframe or set.
-        
+We create a new data frame called df2 from the original datafram df usinng the function withColumn to obtain the year from Date Column.
+Next create a new one dataframe called dfmax from df2 usign a select statement  and the function groupBy an max function.
+Finally get the resulting dataframe called max with the column maxHigh per year. and orderBy Year.      
 ```sh
 val df2 = df.withColumn("Year", year(df("Date")))
 val dfamax = df2.select($"Year",$"High").groupBy("Year").max()
