@@ -981,7 +981,7 @@ only showing top 1 row
 #### 11. With Syntax Scala/Spark anwser the following:
 ##### a) How many day the column "Close" was lower tan $600?
         
-
+For the following execise we use the function filter() tha is used to filter rows from a Dataframe based on given contition, in this case the condition was if column Close is lower tan 600 combined with function count() 
 ```sh
 df.filter($"Close" < 600).count()
 ```
@@ -991,6 +991,8 @@ res12: Long = 1218
 ```
 
 ###### b) What is the percentage of the time that the column "High" was greater tan $500?
+
+Same as exercise 11a, just modify the condition  using the high column and do the operation to calculate the percent: 1.0/ df.count()*100
             
 ```sh
 df.filter($"High" > 500).count()* 1.0/ df.count()*100
@@ -1001,6 +1003,8 @@ res13: Double = 4.924543288324067
 ```
 
 ##### c) What is the pearson corralation between "Hight" and "Volume" columns?
+
+To calculate the pearson corralation, spark have the corr function than can be used to compute the corralation between two columns.
         
 ```sh
 df.select(corr("High","Volume")).show()
@@ -1017,6 +1021,8 @@ df.select(corr("High","Volume")).show()
 
 
 ##### d) What is the max value per year for the column "High"?
+
+For this finals exercise we need to combine function used in this evaluation, withColumns, Group By, max and defined new dataframes to get the disired daataframe or set.
         
 ```sh
 val df2 = df.withColumn("Year", year(df("Date")))
