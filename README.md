@@ -1046,7 +1046,9 @@ max.orderBy("Year").show()
 ```
 
 ##### e) What is the average per month for the "Close" column?
-        
+
+The creation for a new DataFrame is necessary to create the new column named 'Month' and extract the month number for the main DataFrame date. 
+After that, we need to group the data by month. Finally, is necessary to create a simple select and calculate the average for the month created before.
 ```sh
 val df3 = df.withColumn("Month", month(df("Date")))
 val dfavgs = df3.groupBy("Month").mean()
