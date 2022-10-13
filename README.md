@@ -803,6 +803,7 @@ only showing top 20 rows
 
 #### 1. Start a Spark session
 
+For consult and start working with Scala, is necessary to import the SparkSession and construct the build to consult and create records.
 ```sh
 import org.apache.spark.sql.SparkSession
 
@@ -815,6 +816,7 @@ spark: org.apache.spark.sql.SparkSession = org.apache.spark.sql.SparkSession@56a
 
 #### 2. Load the file Netflix Stock CSV to a dataframe named df.
 
+Spark sessions needs a csv file for reference and load data for working in the scala requests records. DataFrames (df) defined the read option and the file path.
 ```sh
 val df = spark.read.option("header", "true").option("inferSchema","true")csv("Netflix_2011_2016.csv")
 
@@ -828,6 +830,7 @@ df: org.apache.spark.sql.DataFrame = [Date: timestamp, Open: double ... 5 more f
 
 #### 3. What are the column names?
 
+For consultig the column names is required to define with DataFrame the method named 'columns' to get the header name of the table.
 ```sh
 df.columns
 ```
@@ -839,6 +842,7 @@ res0: Array[String] = Array(Date, Open, High, Low, Close, Volume, Adj Close)
 
 #### 4. How is the scheme?
 
+Scheme is the main type information for the valued that will store in the same filee, table and DataFrame. To read the complete schema we need to use the 'printSchema' method.
 ```sh
 df.printSchema()
 ```
