@@ -861,6 +861,7 @@ root
 
 #### 5. Print the first 5 rows.
 
+The 'show' method receive the quantity number for displaying the top values. Just provide the method with the DataFrame instruction to show the rows. 
 ```sh
 df.show(5)
 ```
