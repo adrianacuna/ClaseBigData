@@ -882,6 +882,8 @@ only showing top 5 rows
 
 #### 6. Use describe () method to learn about the dataframe.
 
+With the method describe() we can easily explore the content of  a Dataframe, in this case we combina the method describe with show() that display the first row of dataframe.
+
 ```sh
 df.describe().show()
 ```
@@ -901,13 +903,17 @@ df.describe().show()
 
 #### 7. Create a new dataframe with a new column called "HV Ratio" wich is the relationship between price from column "High" with the column "Volume" of stocks traded in one day.
 
+We generate new dataframe df2 from the original dataframe and the method witColumn() that is a transformation function that allows create a new column and do many operations. For this excercise we defined a column named "HV Ratio" and assig the values doing the next opertation with the original dataframe: df("High")*df("Volume")
+
 ```sh
 val df2 = df.withColumn("HV Ratio", df("High")*df("Volume"))
 ```
 
+Finally with show() method  we display the new dataframe
+
 **Print result**
 ```sh
-scala> df2.show(5df2.show())
+scala> df2.show("HV Ratio")
 +-------------------+-----------------+------------------+----------+-----------------+---------+------------------+--------------------+
 |               Date|             Open|              High|       Low|            Close|   Volume|         Adj Close|            HV Ratio|
 +-------------------+-----------------+------------------+----------+-----------------+---------+------------------+--------------------+
@@ -921,6 +927,9 @@ only showing top 5 rows
 ```
 
 #### 8.  What day had the higher peak for column "Open"?
+
+For this exercise we use the method orderBy() to sort the dataframe, also provide a function to specify the ascending order. And in the show() method specify a number 1 to see the higher value.
+
 
 ```sh
 df.orderBy($"Open".desc).show(1)
@@ -936,10 +945,12 @@ df.orderBy($"Open".desc).show(1)
 only showing top 1 row
 ```
 
-#### 9. What is the meaning of the "Close" clumn, in the context of financial information?
+#### 9. What is the meaning of the "Close" column, in the context of financial information?
 Respuesta: Close hace referencia al precio de una acción individual cuando la bolsa de valores cierra en un día en especifico
 
 #### 10. What is the max and min of "Volume" column?
+
+In this case we use the groupBy() function and aggregate functions max and min that returns the maximun and minimun values for each group.
 
 ```sh
 df.groupBy("Volume").max().show(1)
@@ -970,6 +981,7 @@ only showing top 1 row
 #### 11. With Syntax Scala/Spark anwser the following:
 ##### a) How many day the column "Close" was lower tan $600?
         
+
 ```sh
 df.filter($"Close" < 600).count()
 ```
