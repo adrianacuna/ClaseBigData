@@ -22,6 +22,15 @@ data.printSchema
 
 // Imprima un renglon de ejemplo del DataFrane.
 data.head(1)
+val colnames = data.columns
+val firstrow = data.head(1)(0)
+println("\n")
+println("Example data row")
+for(ind <- Range(1, colnames.length)){
+    println(colnames(ind))
+    println(firstrow(ind))
+    println("\n")
+}
 
 
 //////////////////////////////////////////////////////
