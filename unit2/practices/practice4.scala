@@ -15,9 +15,6 @@
  * limitations under the License.
  */
 
-// scalastyle:off println
-package org.apache.spark.examples.ml
-
 // $example on$
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.classification.{RandomForestClassificationModel, RandomForestClassifier}
@@ -35,7 +32,7 @@ object RandomForestClassifierExample {
 
     // $example on$
     // Load and parse the data file, converting it to a DataFrame.
-    val data = spark.read.format("libsvm").load("data/mllib/sample_libsvm_data.txt")
+    val data = spark.read.format("libsvm").load("sample_libsvm_data.txt")
 
     // Index labels, adding metadata to the label column.
     // Fit on whole dataset to include all labels in index.

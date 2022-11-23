@@ -337,6 +337,7 @@ Prit a row example of data
     0
 ```
 **Prepare DataFrame for Machine Learning**
+
 Rename the column "Clicked on Ad" to "label", consider the feeatures colums such a Daily Time Spent on Site","Age","Area Income","Daily Internet Usage","Timestamp","Male"; and create new column named "Hour" from the Timestamp content "Hour of the click".
 ```sh
     val timedata = data.withColumn("Hour",hour(data("Timestamp")))
@@ -376,6 +377,7 @@ Use randomSplit to create data of train and testing with of 70/30 dividers
     test: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [label: int, Daily Time Spent on Site: double ... 5 more fields]
 ```
 **Pipeline Configuration**
+
 Import the Pipeline 
 ```sh
     import org.apache.spark.ml.Pipeline
@@ -414,6 +416,7 @@ Get the result using the conjunction for transformation test
 ```
 
 **Model Evaluation**
+
 For the Metrics and Evaluation import MulticlassMetrics
 ```sh
     import org.apache.spark.mllib.evaluation.MulticlassMetrics
@@ -460,6 +463,260 @@ Print the Confusion matrix
 
 ## Practice 4. Random Forest.
 ##### Practice to run and document our observations of the example of the Spark documentation for Random Forest.
+
+Import the Pipeline
+```sh
+    import org.apache.spark.ml.Pipeline
+```
+Import the RandomForestClassificationModel and RandomForestClassifier
+```sh
+    import org.apache.spark.ml.classification.{RandomForestClassificationModel, RandomForestClassifier}
+```
+Import MulticlassClassificationEvaluator
+```sh
+    import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+```
+Import features IndexToString, StringIndexer, and VectorIndexer
+```sh
+    import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
+```
+Import the basic SpakSession 
+```sh
+    import org.apache.spark.sql.SparkSession
+```
+Create SparkSession builder for the appaName "RandomForestClassifierExample" and asign to "spark" variable
+```sh
+    val spark = SparkSession.builder.appName("RandomForestClassifierExample").getOrCreate()
+```
+**Print result**
+```sh
+    spark: org.apache.spark.sql.SparkSession = org.apache.spark.sql.SparkSession@24abee74
+```
+Read the sample_libsvm_data txt file using Spark and prepare to work
+```sh
+    val data = spark.read.format("libsvm").load("sample_libsvm_data.txt")
+```
+**Print result**
+```sh
+    data: org.apache.spark.sql.DataFrame = [label: double, features: vector]
+```
+Use StringIndexer to create an input column from label to output column called "indexedLabel" and fit on whole dataset to include all labels. 
+```sh
+    val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(data)
+```
+**Print result**
+```sh
+    labelIndexer: org.apache.spark.ml.feature.StringIndexerModel = StringIndexerModel: uid=strIdx_f0427f2102bc, handleInvalid=error
+```
+Use VectorIndexer to create an input column from features to output column called "indexedFeatures", fit on whole dataset to include all labels and set maxCategories to 4. 
+```sh
+    val featureIndexer = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4).fit(data)
+```
+**Print result**
+```sh
+    featureIndexer: org.apache.spark.ml.feature.VectorIndexerModel = VectorIndexerModel: uid=vecIdx_60cfa85e01df, numFeatures=692, handleInvalid=error
+```
+
+Split the data into training and test sets (70/30) using randomSplit
+```sh
+    val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3))
+```
+**Print result**
+```sh
+    trainingData: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [label: double, features: vector]
+
+    testData: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [label: double, features: vector]
+```
+Use RandomForestClassifier to create an label column of indexedLabel using "indexedFeatures" and setNumTrees to 10 for training a RandomForest model
+```sh
+    val rf = new RandomForestClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures").setNumTrees(10)
+```
+**Print result**
+```sh
+    rf: org.apache.spark.ml.classification.RandomForestClassifier = rfc_1b277030fdb0
+```
+Create new IndexToString to set input column from predictions to output column called "predictedLabel", and convert indexed labels back to original labels
+```sh
+    val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labelsArray(0))
+```
+**Print result**
+```sh
+    labelConverter: org.apache.spark.ml.feature.IndexToString = idxToStr_06a4a8385500
+```
+Create new Pipeline with the following elements: labelIndexer, featureIndexer, rf, and labelConverter
+```sh
+    val pipeline = new Pipeline().setStages(Array(labelIndexer, featureIndexer, rf, labelConverter))
+```
+**Print result**
+```sh
+    pipeline: org.apache.spark.ml.Pipeline = pipeline_5a5455d659f6
+```
+Fit the Pipeline for the training conjunction.
+```sh
+    val model = pipeline.fit(trainingData)
+```
+**Print result**
+```sh
+    model: org.apache.spark.ml.PipelineModel = pipeline_5a5455d659f6
+```
+Get the result using the conjunction for transformation test
+```sh
+    val predictions = model.transform(testData)
+```
+**Print result**
+```sh
+    predictions: org.apache.spark.sql.DataFrame = [label: double, features: vector ... 6 more fields]
+```
+Select 5 example rows to display "predictedLabel", "label", "features"
+```sh
+    predictions.select("predictedLabel", "label", "features").show(5)
+```
+**Print result**
+```sh
+    scala> predictions.select("predictedLabel", "label", "features").show(5)
+    +--------------+-----+--------------------+
+    |predictedLabel|label|            features|
+    +--------------+-----+--------------------+
+    |           0.0|  0.0|(692,[122,123,148...|
+    |           0.0|  0.0|(692,[123,124,125...|
+    |           0.0|  0.0|(692,[124,125,126...|
+    |           0.0|  0.0|(692,[126,127,128...|
+    |           0.0|  0.0|(692,[126,127,128...|
+    +--------------+-----+--------------------+
+    only showing top 5 rows
+```
+Create new MulticlassClassificationEvaluator and select (prediction, true label) and compute test error
+```sh
+    val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
+    
+    val accuracy = evaluator.evaluate(predictions)
+    println(s"Test Error = ${(1.0 - accuracy)}")
+```
+**Print result**
+```sh
+    scala>     val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
+    evaluator: org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator = MulticlassClassificationEvaluator: uid=mcEval_c39325ddd9dc, metricName=accuracy, metricLabel=0.0, beta=1.0, eps=1.0E-15
+
+    scala>     
+        |     val accuracy = evaluator.evaluate(predictions)
+    accuracy: Double = 1.0
+
+    scala>     println(s"Test Error = ${(1.0 - accuracy)}")
+    Test Error = 0.0
+```
+Print the learned classification forest model
+```sh
+    val rfModel = model.stages(2).asInstanceOf[RandomForestClassificationModel]
+    println(s"Learned classification forest model:\n ${rfModel.toDebugString}")
+```
+**Print result**
+```sh
+    scala>     println(s"Learned classification forest model:\n ${rfModel.toDebugString}")
+Learned classification forest model:
+ RandomForestClassificationModel: uid=rfc_1b277030fdb0, numTrees=10, numClasses=2, numFeatures=692
+  Tree 0 (weight 1.0):
+    If (feature 455 <= 14.5)
+     If (feature 467 <= 70.0)
+      Predict: 0.0
+     Else (feature 467 > 70.0)
+      Predict: 1.0
+    Else (feature 455 > 14.5)
+     Predict: 1.0
+  Tree 1 (weight 1.0):
+    If (feature 541 <= 121.5)
+     If (feature 384 <= 18.0)
+      Predict: 0.0
+     Else (feature 384 > 18.0)
+      Predict: 1.0
+    Else (feature 541 > 121.5)
+     If (feature 455 <= 14.5)
+      If (feature 432 <= 216.5)
+       Predict: 1.0
+      Else (feature 432 > 216.5)
+       Predict: 0.0
+     Else (feature 455 > 14.5)
+      Predict: 1.0
+  Tree 2 (weight 1.0):
+    If (feature 463 <= 2.0)
+     If (feature 518 <= 119.5)
+      If (feature 432 <= 4.0)
+       Predict: 1.0
+      Else (feature 432 > 4.0)
+       Predict: 0.0
+     Else (feature 518 > 119.5)
+      Predict: 0.0
+    Else (feature 463 > 2.0)
+     Predict: 0.0
+  Tree 3 (weight 1.0):
+    If (feature 216 <= 44.0)
+     If (feature 397 <= 2.5)
+      If (feature 401 <= 23.5)
+       Predict: 0.0
+      Else (feature 401 > 23.5)
+       Predict: 1.0
+     Else (feature 397 > 2.5)
+      Predict: 1.0
+    Else (feature 216 > 44.0)
+     If (feature 345 <= 18.5)
+      Predict: 0.0
+     Else (feature 345 > 18.5)
+      If (feature 468 <= 2.5)
+       Predict: 0.0
+      Else (feature 468 > 2.5)
+       Predict: 1.0
+  Tree 4 (weight 1.0):
+    If (feature 433 <= 52.5)
+     Predict: 1.0
+    Else (feature 433 > 52.5)
+     Predict: 0.0
+  Tree 5 (weight 1.0):
+    If (feature 539 <= 33.0)
+     If (feature 327 <= 81.0)
+      Predict: 0.0
+     Else (feature 327 > 81.0)
+      Predict: 1.0
+    Else (feature 539 > 33.0)
+     Predict: 1.0
+  Tree 6 (weight 1.0):
+    If (feature 511 <= 1.5)
+     If (feature 299 <= 214.5)
+      Predict: 0.0
+     Else (feature 299 > 214.5)
+      Predict: 1.0
+    Else (feature 511 > 1.5)
+     Predict: 1.0
+  Tree 7 (weight 1.0):
+    If (feature 317 <= 8.0)
+     If (feature 244 <= 5.0)
+      Predict: 0.0
+     Else (feature 244 > 5.0)
+      Predict: 1.0
+    Else (feature 317 > 8.0)
+     If (feature 511 <= 1.5)
+      Predict: 0.0
+     Else (feature 511 > 1.5)
+      Predict: 1.0
+  Tree 8 (weight 1.0):
+    If (feature 377 <= 31.0)
+     Predict: 1.0
+    Else (feature 377 > 31.0)
+     If (feature 383 <= 28.0)
+      Predict: 0.0
+     Else (feature 383 > 28.0)
+      Predict: 1.0
+  Tree 9 (weight 1.0):
+    If (feature 596 <= 45.5)
+     If (feature 406 <= 9.5)
+      Predict: 1.0
+     Else (feature 406 > 9.5)
+      Predict: 0.0
+    Else (feature 596 > 45.5)
+     If (feature 243 <= 1.0)
+      Predict: 0.0
+     Else (feature 243 > 1.0)
+      Predict: 1.0
+```
+
 
 ## Practice 4. Multilayer Peceptron Classifier.
 ##### Practice to run and document our observations of the example of the Spark documentation for Multilayer Peceptron Classifier.
