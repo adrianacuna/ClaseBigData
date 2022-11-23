@@ -237,6 +237,221 @@ r2: 0.9843155370226727
 ## Practice 2. Logistic Regression.
 ##### Practice to analyze and document the PracticalLogisticRegression.scala file.
 
+Import the SparkSession using the Logistic Regression library
+```sh
+    import org.apache.spark.ml.classification.LogisticRegression
+```
+Optional: Use the Error reporting code
+```sh
+    import org.apache.log4j._
+    Logger.getLogger("org").setLevel(Level.ERROR)
+```
+Create the basic SparkSession and build the variable spark
+```sh
+    import org.apache.spark.sql.SparkSession
+    val spark = SparkSession.builder().getOrCreate()
+```
+Read the Advertising csv file using Spark and prepare to work
+```sh
+    val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("advertising.csv")
+```
+**Print Data**
+Print the DataFrame schema
+```sh
+    data.printSchema()
+```
+**Print result**
+```sh
+    scala> data.printSchema()
+    root
+    |-- Daily Time Spent on Site: double (nullable = true)
+    |-- Age: integer (nullable = true)
+    |-- Area Income: double (nullable = true)
+    |-- Daily Internet Usage: double (nullable = true)
+    |-- Ad Topic Line: string (nullable = true)
+    |-- City: string (nullable = true)
+    |-- Male: integer (nullable = true)
+    |-- Country: string (nullable = true)
+    |-- Timestamp: timestamp (nullable = true)
+    |-- Clicked on Ad: integer (nullable = true)
+```
+Prit a row example of data
+```sh
+    data.head(1)
+
+    val colnames = data.columns
+    val firstrow = data.head(1)(0)
+    println("\n")
+    println("Example data row")
+    for(ind <- Range(1, colnames.length)){
+        println(colnames(ind))
+        println(firstrow(ind))
+        println("\n")
+    }
+```
+**Print result**
+```sh
+    scala> println("\n")
+
+    scala> println("Example data row")
+    Example data row
+
+    scala> for(ind <- Range(1, colnames.length)){
+        |     println(colnames(ind))
+        |     println(firstrow(ind))
+        |     println("\n")
+        | }
+    Age
+    35
+
+
+    Area Income
+    61833.9
+
+
+    Daily Internet Usage
+    256.09
+
+
+    Ad Topic Line
+    Cloned 5thgeneration orchestration
+
+
+    City
+    Wrightburgh
+
+
+    Male
+    0
+
+
+    Country
+    Tunisia
+
+
+    Timestamp
+    2016-03-27 00:53:11.0
+
+
+    Clicked on Ad
+    0
+```
+**Prepare DataFrame for Machine Learning**
+Rename the column "Clicked on Ad" to "label", consider the feeatures colums such a Daily Time Spent on Site","Age","Area Income","Daily Internet Usage","Timestamp","Male"; and create new column named "Hour" from the Timestamp content "Hour of the click".
+```sh
+    val timedata = data.withColumn("Hour",hour(data("Timestamp")))
+
+    val logregdata = timedata.select(data("Clicked on Ad").as("label"), $"Daily Time Spent on Site", $"Age", $"Area Income", $"Daily Internet Usage", $"Hour", $"Male")
+```
+**Print result**
+```sh
+    timedata: org.apache.spark.sql.DataFrame = [Daily Time Spent on Site: double, Age: int ... 9 more fields]
+    logregdata: org.apache.spark.sql.DataFrame = [label: int, Daily Time Spent on Site: double ... 5 more fields]
+```
+Import the VectorAssembler and import Vectors too.
+```sh
+    import org.apache.spark.ml.feature.VectorAssembler
+    import org.apache.spark.ml.linalg.Vectors
+```
+
+Create new VectorAssembler object called "assembler" to use in features.
+```sh
+    val assembler = (new VectorAssembler()
+                    .setInputCols(Array("Daily Time Spent on Site", "Age","Area Income","Daily Internet Usage","Hour","Male"))
+                    .setOutputCol("features"))
+```
+**Print result**
+```sh
+    assembler: org.apache.spark.ml.feature.VectorAssembler = VectorAssembler: uid=vecAssembler_f321d86871ce, handleInvalid=error, numInputCols=6
+```
+
+Use randomSplit to create data of train and testing with of 70/30 dividers
+```sh
+    val Array(training, test) = logregdata.randomSplit(Array(0.7, 0.3), seed = 12345)
+```
+**Print result**
+```sh
+    training: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [label: int, Daily Time Spent on Site: double ... 5 more fields]
+
+    test: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [label: int, Daily Time Spent on Site: double ... 5 more fields]
+```
+**Pipeline Configuration**
+Import the Pipeline 
+```sh
+    import org.apache.spark.ml.Pipeline
+```
+Create new LogisticRegression object and called "lr"
+```sh
+    val lr = new LogisticRegression()
+```
+**Print result**
+```sh
+    lr: org.apache.spark.ml.classification.LogisticRegression = logreg_e50a6bf3435b
+```
+Create new Pipeline with the followign elements: "assembler" and "lr"
+```sh
+    val pipeline = new Pipeline().setStages(Array(assembler, lr))
+```
+**Print result**
+```sh
+    pipeline: org.apache.spark.ml.Pipeline = pipeline_9a0f1dc04d31
+```
+Fit the Pipeline for the training conjunction. 
+```sh
+    val model = pipeline.fit(training)
+```
+**Print result**
+```sh
+    model: org.apache.spark.ml.PipelineModel = pipeline_9a0f1dc04d31
+```
+Get the result using the conjunction for transformation test
+```sh
+    val results = model.transform(test)
+```
+**Print result**
+```sh
+    results: org.apache.spark.sql.DataFrame = [label: int, Daily Time Spent on Site: double ... 9 more fields]
+```
+
+**Model Evaluation**
+For the Metrics and Evaluation import MulticlassMetrics
+```sh
+    import org.apache.spark.mllib.evaluation.MulticlassMetrics
+```
+Convert the test results on RDD using ".as" and ".rdd"
+```sh
+    val predictionAndLabels = results.select($"prediction",$"label").as[(Double, Double)].rdd
+    val metrics = new MulticlassMetrics(predictionAndLabels)
+```
+**Print result**
+```sh
+    predictionAndLabels: org.apache.spark.rdd.RDD[(Double, Double)] = MapPartitionsRDD[68] at rdd at <console>:32
+
+    metrics: org.apache.spark.mllib.evaluation.MulticlassMetrics = org.apache.spark.mllib.evaluation.MulticlassMetrics@71b4b729
+```
+Initialize the MulticlassMetrics object
+```sh
+    println("Confusion matrix:")
+    println(metrics.confusionMatrix)
+```
+**Print result**
+```sh
+    scala> println("Confusion matrix:")
+    Confusion matrix:
+
+    scala> println(metrics.confusionMatrix)
+    136.0  1.0    
+    4.0    146.0  
+```
+Print the Confusion matrix
+```sh
+    metrics.accuracy
+```
+**Print result**
+```sh
+    res8: Double = 0.9825783972125436
+```
+
 
 ## Practice 3. Decision Tree. 
 ##### Practice to run and document our observations of the example of the Spark documentation for Decision Tree Classifier.
