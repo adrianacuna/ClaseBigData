@@ -459,7 +459,71 @@ Print the Confusion matrix
 ## Practice 3. Decision Tree. 
 ##### Practice to run and document our observations of the example of the Spark documentation for Decision Tree Classifier.
 
-##### 1. Create an algorithm in scala to calculate the **radius** for a circle.
+
+Import SpakConf and SparkContext that set common properties for the application.
+```sh
+import org.apache.spark.{SparkConf, SparkContext}
+```
+Import machine learning library to use DescisionTree  methods like classification and regression.
+```sh
+import org.apache.spark.mllib.tree.DecisionTree
+import org.apache.spark.mllib.tree.model.DecisionTreeModel
+```
+
+Import MLUtils to use helper methods to load, save and process data used in Machine Learning methods.
+```sh
+import org.apache.spark.mllib.util.MLUtils
+```
+Create a new object named DecisionTreeClassification that containt all the operartion and function for this example.
+```sh
+object DecisionTreeClassificationExample {
+```
+Create the main class  whit a array argument, create new variable conf that contains the default app settings where we define the name of the app. And load that settings whit the method SparkContext.
+```sh
+def main(args: Array[String]): Unit = {
+    val conf = new SparkConf().setAppName("DecisionTreeClassificationExample")
+    val sc = new SparkContext(conf)
+```
+
+Used the helper methods to load the data that we used for this example for MachineLearning
+```sh
+val data = MLUtils.loadLibSVMFile(sc, "data/mllib/sample_libsvm_data.txt")
+```
+
+We used the method randomSplit to split the dataframe into two a specific weights, in this case 70% and 30 %, and assign the result into training Data y testData variables.
+```sh
+val splits = data.randomSplit(Array(0.7, 0.3))
+val (trainingData, testData) = (splits(0), splits(1))
+```
+
+Next was define the values for the number of classes than refers the numbers of outcomes for this model. 
+```sh
+val numClasses = 2
+```
+
+Also specified that the categorical features are continuous.
+val categoricalFeaturesInfo = Map[Int, Int]()
+```
+
+A Impurity value mesuare = gini is used to choose between candidate splits.
+```sh
+val impurity = "gini"
+```
+
+This is is the training paranmeter that define the node depth.
+```sh 
+val maxDepth = 5
+```
+
+The vlue maxBins refers to number of bins used when discretizing continuos features.
+```sh
+val maxBins = 32
+```
+
+
+```sh
+val model = DecisionTree.trainClassifier(trainingData, numClasses, categoricalFeaturesInfo,impurity, maxDepth, maxBins)
+```
 
 ## Practice 4. Random Forest.
 ##### Practice to run and document our observations of the example of the Spark documentation for Random Forest.
@@ -718,5 +782,5 @@ Learned classification forest model:
 ```
 
 
-## Practice 4. Multilayer Peceptron Classifier.
+## Practice 5. Multilayer Peceptron Classifier.
 ##### Practice to run and document our observations of the example of the Spark documentation for Multilayer Peceptron Classifier.
