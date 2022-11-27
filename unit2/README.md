@@ -5,7 +5,7 @@
 + [Practice 3](#practice-3-decision-tree)
 + [Practice 4](#practice-4-random-forest)
 + [Practice 5](#practice-5-multilayer-peceptron-classifier)
-+ [Evaluation Unit 1](#evaluation-unit-2)
++ [Evaluation Unit 2](#evaluation-unit-2)
 
 ## Practice 1. Linear Regression. 
 ##### Practice to resolve and test Linear Regression methods from AssigmentLinearRegression.scala file.
@@ -21,18 +21,18 @@ import org.apache.log4j._
 Logger.getLogger("org").setLevel(Level.ERROR)
 ```
 
-Inicie una simple Sesion Spark
+Start a simple Spark Session
 ```sh
 import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder().getOrCreate()
 ```
 
-Utilice Spark para el archivo csv Clean-Ecommerce.
+Use Spark to read the Ecommerce Customers csv file.
 ```sh
 val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("Clean-Ecommerce.csv")
 ```
 
-Imprima el schema en el DataFrame.
+Print Schema of the DataFrame
 ```sh
 data.printSchema
 ```
@@ -50,6 +50,7 @@ root
  ```
 
 Imprima un renglon de ejemplo del DataFrane.
+Print one example row of the dataframe
 
 ```sh
 data.head(1)
@@ -100,15 +101,17 @@ Yearly Amount Spent
 
 ##### Configure el DataFrame para Machine Learning
 
-Transforme el data frame para que tome la forma de ("label","features")
-Importe VectorAssembler y Vectors
+
+Transform the dataframe to  take the for of ("label","features")
+Import VectorAssembler y Vectors
 
 ```sh
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.linalg.Vectors
 ```
 
-Renombre la columna Yearly Amount Spent como "label", tambien de los datos tome solo la columa numerica. Deje todo esto como un nuevo DataFrame que se llame df
+Rename the Yearly Amount Spent Column as "label", also grab only the numerical columns from the data
+Set all of this as a new dataframe called df
 
 ```sh
 val df = data.select(data("Yearly Amount Spent").as("label"),
@@ -119,10 +122,11 @@ $"Avg Session Length",$"Time on App",$"Time on Website",$"Length of Membership")
 df: org.apache.spark.sql.DataFrame = [label: double, Avg Session Length: double ... 3 more fields]
 ```
 
-Que el objeto assembler convierta los valores de entrada a un vector
-Utilice el objeto VectorAssembler para convertir la columnas de entradas del df a una sola columna de salida de un arreglo llamado  "features"
-Configure las columnas de entrada de donde se supone que leemos los valores.
-Llamar a esto nuevo assambler.
+An assembler converts the input values to a vector
+
+Use VectorAssembler to convert the input columns of df to a single output column of an array called "features"
+Set the input columns from which we are supposed to read the values.
+Call this new object assembler
 
 ```sh
 val assembler = new VectorAssembler().setInputCols(Array("Avg Session Length","Time on App","Time on Website","Length of Membership")).setOutputCol("features")
@@ -132,7 +136,7 @@ val assembler = new VectorAssembler().setInputCols(Array("Avg Session Length","T
 assembler: org.apache.spark.ml.feature.VectorAssembler = VectorAssembler: uid=vecAssembler_b3c45a0cf4e8, handleInvalid=error, numInputCols=4
 ```
 
-Utilice el assembler para transform nuestro DataFrame a dos columnas: label and features
+Use the assembler to transform the DataFrame to the two columns: label and features
 
 ```sh
 val output = assembler.transform(df).select($"label",$"features")
@@ -142,7 +146,7 @@ val output = assembler.transform(df).select($"label",$"features")
 output: org.apache.spark.sql.DataFrame = [label: double, features: vector]
 ```
 
-Crear un objeto para modelo de regresion linea.
+Create a Linear Regression Model object
 
 ```sh
 val lr = new LinearRegression()
@@ -152,7 +156,7 @@ val lr = new LinearRegression()
 lr: org.apache.spark.ml.regression.LinearRegression = linReg_022cc6b7f4ca
 ```
 
-Ajuste el modelo para los datos y llame a este modelo lrModelo
+Fit the model to the data and call this model lrModel
 
 ```sh
 val lrModelo = lr.fit(output)
@@ -162,7 +166,7 @@ val lrModelo = lr.fit(output)
 lrModelo: org.apache.spark.ml.regression.LinearRegressionModel = LinearRegressionModel: uid=linReg_022cc6b7f4ca, numFeatures=4
 ```
 
-Imprima the  coefficients y intercept para la regresion lineal
+Print the coefficients and intercept for linear regression
 
 ```sh
 println(s"Coefficients: ${lrModelo.coefficients} Intercept: ${lrModelo.intercept}")
@@ -172,9 +176,8 @@ println(s"Coefficients: ${lrModelo.coefficients} Intercept: ${lrModelo.intercept
 Coefficients: [25.734271084670716,38.709153810828816,0.43673883558514964,61.57732375487594] Intercept: -1051.5942552990748
 ```
 
-Resuma el modelo sobre el conjunto de entrenamiento imprima la salida de algunas metricas!
-Utilize metodo .summary de nuestro  modelo para crear un objeto
-llamado trainingSummary
+Summarize the model over the training set and print out some metrics!
+Use the .summary method off your model to create an object called trainingSummary
 
 ```sh
 val trainingSummary = lrModelo.summary
@@ -185,7 +188,7 @@ val trainingSummary = lrModelo.summary
 trainingSummary: org.apache.spark.ml.regression.LinearRegressionTrainingSummary = org.apache.spark.ml.regression.LinearRegressionTrainingSummary@7d026083
 ```
 
-Muestre los valores de residuals, el RMSE, el MSE, y tambien el R^2 .
+Show the residuals, the RMSE, the MSE, and the R^2 Values.
 
 ```sh
 trainingSummary.residuals.show()
@@ -540,17 +543,20 @@ val testErr = labelAndPreds.filter(r => r._1 != r._2).count().toDouble / testDat
     println(s"Learned classification tree model:\n ${model.toDebugString}")
 ```
 
-Finally save the model to be used later and load the model.
+Save the model to be used later and load the model.
 ```sh
 model.save(sc, "target/tmp/myDecisionTreeClassificationModel")
     val sameModel = DecisionTreeModel.load(sc, "target/tmp/myDecisionTreeClassificationModel")
 ```
 
-FInally stop all the sparkcontext.
+Finally stop all the sparkcontext.
 ```sh
 sc.stop()
 ```
-
+**Print result**
+```sh
+defined object DecisionTreeClassificationExample
+```
 ## Practice 4. Random Forest.
 ##### Practice to run and document our observations of the example of the Spark documentation for Random Forest.
 
@@ -910,4 +916,210 @@ Print the accuracy and print the predictionAndLabels variable value.
 **Print Result**
 ```sh
     ERROR
+```
+
+## Evaluation Unit 2. 
+##### Exercises to evaluate Unit 2 relative to Machine Learning Mllib de Spark y Google.
+
+```sh
+import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.spark.ml.feature.IndexToString
+import org.apache.spark.ml.feature.StringIndexer
+import org.apache.spark.ml.feature.VectorIndexer
+import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.ml.Pipeline
+```
+
+```sh
+val iris = spark.read.option("header", "true").option("inferSchema", "true").format("csv").load("iris.csv")
+```
+
+**Print Result**
+```sh
+iris: org.apache.spark.sql.DataFrame = [sepal_length: double, sepal_width: double ... 3 more fields]
+```
+
+```sh
+//val df = iris.withColumn("sepal_length",$"sepal_length".cast("double")).withColumn("sepal_width",$"sepal_width".cast("double")).withColumn("petal_length", $"petal_length".cast("double")).withColumn("petal_width", $"petal_width".cast("double"))
+```
+
+```sh
+iris.printSchema()
+```
+**Print Result**
+```sh
+root
+ |-- sepal_length: double (nullable = true)
+ |-- sepal_width: double (nullable = true)
+ |-- petal_length: double (nullable = true)
+ |-- petal_width: double (nullable = true)
+ |-- species: string (nullable = true)
+ ```
+
+```sh
+iris.show(5)
+```
+
+**Print Result**
+```sh
++------------+-----------+------------+-----------+-------+
+|sepal_length|sepal_width|petal_length|petal_width|species|
++------------+-----------+------------+-----------+-------+
+|         5.1|        3.5|         1.4|        0.2| setosa|
+|         4.9|        3.0|         1.4|        0.2| setosa|
+|         4.7|        3.2|         1.3|        0.2| setosa|
+|         4.6|        3.1|         1.5|        0.2| setosa|
+|         5.0|        3.6|         1.4|        0.2| setosa|
++------------+-----------+------------+-----------+-------+
+only showing top 5 rows
+```
+
+```sh
+iris.describe().show()
+```
+
+**Print Result**
+```sh
++-------+------------------+-------------------+------------------+------------------+---------+
+|summary|      sepal_length|        sepal_width|      petal_length|       petal_width|  species|
++-------+------------------+-------------------+------------------+------------------+---------+
+|  count|               150|                150|               150|               150|      150|
+|   mean| 5.843333333333335| 3.0540000000000007|3.7586666666666693|1.1986666666666672|     null|
+| stddev|0.8280661279778637|0.43359431136217375| 1.764420419952262|0.7631607417008414|     null|
+|    min|               4.3|                2.0|               1.0|               0.1|   setosa|
+|    max|               7.9|                4.4|               6.9|               2.5|virginica|
++-------+------------------+-------------------+------------------+------------------+---------+
+```
+
+
+```sh
+val assembler = new VectorAssembler().setInputCols(Array("sepal_length", "sepal_width", "petal_length", "petal_width")).setOutputCol("features")
+```
+
+```sh
+val features = assembler.transform(iris)
+```
+
+**Print Result**
+```sh
+features: org.apache.spark.sql.DataFrame = [sepal_length: double, sepal_width: double ... 4 more fields]
+```
+
+```sh
+val indexerLabel = new StringIndexer().setInputCol("species").setOutputCol("indexedLabel").fit(features)
+```
+
+**Print Result**
+```sh
+indexerLabel: org.apache.spark.ml.feature.StringIndexerModel = StringIndexerModel: uid=strIdx_337483116212, handleInvalid=error
+```
+
+```sh
+val indexerFeatures = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4)
+```
+
+**Print Result**
+```sh
+indexerFeatures: org.apache.spark.ml.feature.VectorIndexer = vecIdx_5dc3c4038373
+```
+
+
+```sh
+val Array(training, test) = features.randomSplit(Array(0.7, 0.3), seed = 12345)
+```
+
+**Print Result**
+```sh
+training: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [sepal_length: double, sepal_width: double ... 4 more fields]
+test: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [sepal_length: double, sepal_width: double ... 4 more fields]
+```
+
+```sh
+val layers = Array[Int](4, 5, 4, 3)
+```
+
+**Print Result**
+```sh
+layers: Array[Int] = Array(4, 5, 4, 3)
+```
+
+```sh
+val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures").setBlockSize(128).setSeed(1234).setMaxIter(100)
+```
+
+**Print Result**
+```sh
+trainer: org.apache.spark.ml.classification.MultilayerPerceptronClassifier = mlpc_fdf4b3531777
+```
+
+```sh
+val converterLabel = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(indexerLabel.labels)
+```
+
+**Print Result**
+```sh
+warning: one deprecation (since 3.0.0); for details, enable `:setting -deprecation' or `:replay -deprecation'
+converterLabel: org.apache.spark.ml.feature.IndexToString = idxToStr_6a03c3861b36
+```
+
+```sh
+val pipeline = new Pipeline().setStages(Array(indexerLabel, indexerFeatures, trainer, converterLabel))
+```
+**Print Result**
+```sh
+pipeline: org.apache.spark.ml.Pipeline = pipeline_8227ee919b12
+```
+
+```sh
+val model = pipeline.fit(training)
+```
+**Print Result**
+```sh
+model: org.apache.spark.ml.PipelineModel = pipeline_8227ee919b12
+```
+
+```sh
+val results = model.transform(test)
+```
+
+**Print Result**
+```sh
+results: org.apache.spark.sql.DataFrame = [sepal_length: double, sepal_width: double ... 10 more fields]
+```
+
+```sh
+val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
+```
+
+**Print Result**
+```sh
+evaluator: org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator = MulticlassClassificationEvaluator: uid=mcEval_b852b9c85b9c, metricName=accuracy, metricLabel=0.0, beta=1.0, eps=1.0E-15
+```
+
+```sh
+val accuracy = evaluator.evaluate(results)
+```
+
+**Print Result**
+```sh
+accuracy: Double = 0.9705882352941176
+```
+
+```sh
+println("Accuracy = " + accuracy)
+```
+
+**Print Result**
+```sh
+Accuracy = 0.9705882352941176
+```
+
+```sh
+println("Error = " + (1.0 - accuracy))
+```
+
+**Print Result**
+```sh
+Error = 0.02941176470588236
 ```
