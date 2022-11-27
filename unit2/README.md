@@ -919,8 +919,9 @@ Print the accuracy and print the predictionAndLabels variable value.
 ```
 
 ## Evaluation Unit 2. 
-##### Exercises to evaluate Unit 2 relative to Machine Learning Mllib de Spark y Google.
+##### Exercises to evaluate Unit 2 relative to Machine Learning Mllib of Spark and Google.
 
+Import libraries needed for MachineLearning in Spark.
 ```sh
 import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
@@ -931,6 +932,7 @@ import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.Pipeline
 ```
 
+Load the file iris.cvs that we use to do the following operations and create the model for machine learning.
 ```sh
 val iris = spark.read.option("header", "true").option("inferSchema", "true").format("csv").load("iris.csv")
 ```
@@ -940,10 +942,12 @@ val iris = spark.read.option("header", "true").option("inferSchema", "true").for
 iris: org.apache.spark.sql.DataFrame = [sepal_length: double, sepal_width: double ... 3 more fields]
 ```
 
+Define the value for the dataframe named df and transform the columns data types.
 ```sh
 //val df = iris.withColumn("sepal_length",$"sepal_length".cast("double")).withColumn("sepal_width",$"sepal_width".cast("double")).withColumn("petal_length", $"petal_length".cast("double")).withColumn("petal_width", $"petal_width".cast("double"))
 ```
 
+Use printSchema to print  the schema of the DataFrame  with column name and data type.
 ```sh
 iris.printSchema()
 ```
@@ -957,6 +961,7 @@ root
  |-- species: string (nullable = true)
  ```
 
+Use the fucntion show() to display the contents of the DataFrame in a Table Row & Column Format. 
 ```sh
 iris.show(5)
 ```
@@ -975,6 +980,7 @@ iris.show(5)
 only showing top 5 rows
 ```
 
+With describe function we can see the  mean, standard deviation, and minimum and maximum value for each numerical column 
 ```sh
 iris.describe().show()
 ```
@@ -992,11 +998,12 @@ iris.describe().show()
 +-------+------------------+-------------------+------------------+------------------+---------+
 ```
 
-
+Next we merges multiple columns into a vector column named Features with VectorAssembler method.
 ```sh
 val assembler = new VectorAssembler().setInputCols(Array("sepal_length", "sepal_width", "petal_length", "petal_width")).setOutputCol("features")
 ```
 
+Following assing to that parameter the data loaded from the iris file.
 ```sh
 val features = assembler.transform(iris)
 ```
@@ -1006,6 +1013,7 @@ val features = assembler.transform(iris)
 features: org.apache.spark.sql.DataFrame = [sepal_length: double, sepal_width: double ... 4 more fields]
 ```
 
+Converts string values to indexes for the categorical features
 ```sh
 val indexerLabel = new StringIndexer().setInputCol("species").setOutputCol("indexedLabel").fit(features)
 ```
@@ -1015,6 +1023,7 @@ val indexerLabel = new StringIndexer().setInputCol("species").setOutputCol("inde
 indexerLabel: org.apache.spark.ml.feature.StringIndexerModel = StringIndexerModel: uid=strIdx_337483116212, handleInvalid=error
 ```
 
+Create indexes for the vector of categorical features
 ```sh
 val indexerFeatures = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4)
 ```
@@ -1024,6 +1033,8 @@ val indexerFeatures = new VectorIndexer().setInputCol("features").setOutputCol("
 indexerFeatures: org.apache.spark.ml.feature.VectorIndexer = vecIdx_5dc3c4038373
 ```
 
+ Split the source data, using some of it to train the model and reserving some to test the trained model.
+In this exercise, we will use 70% of the data for training, and reserve 30% for testing.
 
 ```sh
 val Array(training, test) = features.randomSplit(Array(0.7, 0.3), seed = 12345)
@@ -1035,6 +1046,7 @@ training: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [sepal_length
 test: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [sepal_length: double, sepal_width: double ... 4 more fields]
 ```
 
+Define the value layers that contains the array refering to the inputs layers (the inputs columns ) the hide layers and the output layer (number of species).
 ```sh
 val layers = Array[Int](4, 5, 4, 3)
 ```
@@ -1044,6 +1056,7 @@ val layers = Array[Int](4, 5, 4, 3)
 layers: Array[Int] = Array(4, 5, 4, 3)
 ```
 
+Used the Classifier trainer based on the Multilayer Perceptron. Number of inputs has to be equal to the size of feature vectors. Number of outputs has to be equal to the total number of labels.
 ```sh
 val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures").setBlockSize(128).setSeed(1234).setMaxIter(100)
 ```
@@ -1053,6 +1066,7 @@ val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setLabelCol
 trainer: org.apache.spark.ml.classification.MultilayerPerceptronClassifier = mlpc_fdf4b3531777
 ```
 
+Create new IndexToString to set input column called "predictedLabel", and convert indexed labels back to original labels
 ```sh
 val converterLabel = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(indexerLabel.labels)
 ```
@@ -1063,6 +1077,8 @@ warning: one deprecation (since 3.0.0); for details, enable `:setting -deprecati
 converterLabel: org.apache.spark.ml.feature.IndexToString = idxToStr_6a03c3861b36
 ```
 
+Create new Pipeline with the following elements: indexerLabel, indexerFeatures, trainer, converterLabel.
+A pipeline consists of a a series of transformer and estimator stages that typically prepare a DataFrame for modeling and then train a predictive model.
 ```sh
 val pipeline = new Pipeline().setStages(Array(indexerLabel, indexerFeatures, trainer, converterLabel))
 ```
@@ -1071,6 +1087,7 @@ val pipeline = new Pipeline().setStages(Array(indexerLabel, indexerFeatures, tra
 pipeline: org.apache.spark.ml.Pipeline = pipeline_8227ee919b12
 ```
 
+Use fit() function to the DataFrame and produces the Model, which is a Transformer. 
 ```sh
 val model = pipeline.fit(training)
 ```
@@ -1079,6 +1096,7 @@ val model = pipeline.fit(training)
 model: org.apache.spark.ml.PipelineModel = pipeline_8227ee919b12
 ```
 
+Converts the DataFrame with the test results
 ```sh
 val results = model.transform(test)
 ```
@@ -1088,6 +1106,7 @@ val results = model.transform(test)
 results: org.apache.spark.sql.DataFrame = [sepal_length: double, sepal_width: double ... 10 more fields]
 ```
 
+Define the evaluator value whit MulticlassClassificationEvaluator method and define the parameters for the labels, prediction column and set the metric name.
 ```sh
 val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabel").setPredictionCol("prediction").setMetricName("accuracy")
 ```
@@ -1097,6 +1116,7 @@ val evaluator = new MulticlassClassificationEvaluator().setLabelCol("indexedLabe
 evaluator: org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator = MulticlassClassificationEvaluator: uid=mcEval_b852b9c85b9c, metricName=accuracy, metricLabel=0.0, beta=1.0, eps=1.0E-15
 ```
 
+Next evaluate the accuracy using  the results data into evaluator.
 ```sh
 val accuracy = evaluator.evaluate(results)
 ```
@@ -1106,6 +1126,7 @@ val accuracy = evaluator.evaluate(results)
 accuracy: Double = 0.9705882352941176
 ```
 
+Finally print the accuracy and the error values.
 ```sh
 println("Accuracy = " + accuracy)
 ```
