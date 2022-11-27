@@ -455,7 +455,6 @@ Print the Confusion matrix
     res8: Double = 0.9825783972125436
 ```
 
-
 ## Practice 3. Decision Tree. 
 ##### Practice to run and document our observations of the example of the Spark documentation for Decision Tree Classifier.
 
@@ -515,14 +514,41 @@ This is is the training paranmeter that define the node depth.
 val maxDepth = 5
 ```
 
-The vlue maxBins refers to number of bins used when discretizing continuos features.
+The value maxBins refers to number of bins used when discretizing continuos features.
 ```sh
 val maxBins = 32
 ```
 
-
+Next we use the method to train a decision tree model.
 ```sh
 val model = DecisionTree.trainClassifier(trainingData, numClasses, categoricalFeaturesInfo,impurity, maxDepth, maxBins)
+```
+
+
+Create the values to evaluate the model fot label and predictions.
+```sh
+val labelAndPreds = testData.map { point =>
+    val prediction = model.predict(point.features)
+    (point.label, prediction)
+}
+```
+
+Following we create the values to calculate the error from the model testing
+```sh
+val testErr = labelAndPreds.filter(r => r._1 != r._2).count().toDouble / testData.count()
+    println(s"Test Error = $testErr")
+    println(s"Learned classification tree model:\n ${model.toDebugString}")
+```
+
+Finally save the model to be used later and load the model.
+```sh
+model.save(sc, "target/tmp/myDecisionTreeClassificationModel")
+    val sameModel = DecisionTreeModel.load(sc, "target/tmp/myDecisionTreeClassificationModel")
+```
+
+FInally stop all the sparkcontext.
+```sh
+sc.stop()
 ```
 
 ## Practice 4. Random Forest.
