@@ -784,3 +784,104 @@ Learned classification forest model:
 
 ## Practice 5. Multilayer Peceptron Classifier.
 ##### Practice to run and document our observations of the example of the Spark documentation for Multilayer Peceptron Classifier.
+
+Import libraries for MultilayerPerceptronClassifier and MulticlassClassificationEvaluator
+```sh
+    import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
+    import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+```
+Create the DataFrame using the text file named "sample_multiclass_classification_data"
+```sh
+    val data = spark.read.format("libsvm").load("sample_multiclass_classification_data.txt")
+```
+**Print result**
+```sh
+    scala>     val data = spark.read.format("libsvm").load("sample_multiclass_classification_data.txt")
+    22/11/26 19:55:38 WARN LibSVMFileFormat: 'numFeatures' option not specified, determining the number of features by going though the input. If you know the number in advance, please specify it via 'numFeatures' option to avoid the extra scan.
+    data: org.apache.spark.sql.DataFrame = [label: double, features: vector]
+```
+
+Use randomSplit to create data of train and testing with of 60/40 dividers, create new variable called "train" and take the 0 position for the splits, finally, create a new "test" variable and asign the 1 position value of the splits. 
+```sh
+    val splits = data.randomSplit(Array(0.6, 0.4), seed = 1234L)
+    val train = splits(0)
+    val test = splits(1)
+```
+**Print Results**
+```sh
+    scala> val splits = data.randomSplit(Array(0.6, 0.4), seed = 1234L)
+    splits: Array[org.apache.spark.sql.Dataset[org.apache.spark.sql.Row]] = Array([label: double, features: vector], [label: double, features: vector])
+
+    scala> val train = splits(0)
+    train: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [label: double, features: vector]
+
+    scala> val test = splits(1)
+    test: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [label: double, features: vector]
+```
+
+Create a new layer array and define the neuronal network for the inputs 4, 5, 4, 3 values. 
+```sh
+    val layers = Array[Int](4, 5, 4, 3)
+```
+**Print Result**
+```sh
+    scala> val layers = Array[Int](4, 5, 4, 3)
+    layers: Array[Int] = Array(4, 5, 4, 3)
+```
+
+Create new training variable and called "trainer" to assign parameters to set blocks for 128, seed for 1234L and max inter to 100. 
+```sh
+    val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100) 
+```
+**Print Result**
+```sh
+    scala> val trainer = new MultilayerPerceptronClassifier().setLayers(layers).setBlockSize(128).setSeed(1234L).setMaxIter(100)
+    trainer: org.apache.spark.ml.classification MultilayerPerceptronClassifier = mlpc_a0d102e19090
+```
+
+Fit the trainer for the train conjunction.
+```sh
+    val model = trainer.fit(train)
+```
+**Print Result**
+```sh
+    scala> val model = trainer.fit(train)
+    [Stage 43:>                                                         (0 + 1) / 1]
+```
+Get the result using the conjunction for transformation test
+```sh
+    val result = model.transform(test)
+```
+**Print Result**
+```sh
+    ERROR
+```
+
+Create predictionAndLabels from the result variable and create the label. 
+```sh
+    val predictionAndLabels = result.select("prediction", "label")
+```
+**Print Result**
+```sh
+    ERROR
+```
+
+Specify evaluator and create new instance of MulticlassClassificationEvaluator and set metric named "accuracy"
+```sh
+    val evaluator = new MulticlassClassificationEvaluator()
+    .setMetricName("accuracy")
+```
+**Print Result**
+```sh
+    scala>   .setMetricName("accuracy")
+    res21: evaluator.type = MulticlassClassificationEvaluator: uid=mcEval_920c519b33cf, metricName=accuracy, metricLabel=0.0, beta=1.0, eps=1.0E-15
+    
+```
+Print the accuracy and print the predictionAndLabels variable value.
+```sh
+    println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
+```
+**Print Result**
+```sh
+    ERROR
+```
