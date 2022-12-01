@@ -1,11 +1,8 @@
-import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.ml.feature.{VectorAssembler, StringIndexer, VectorIndexer, OneHotEncoder}
-import org.apache.spark.ml.linalg.Vectors
-import org.apache.spark.ml.Pipeline
-import org.apache.spark.mllib.evaluation.MulticlassMetrics
+import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
-
+import org.apache.spark.ml.feature.{VectorAssembler, StringIndexer, VectorIndexer, OneHotEncoder}
 
 import org.apache.log4j._
 Logger.getLogger("org").setLevel(Level.ERROR)
@@ -42,35 +39,32 @@ val monthEncoder = new OneHotEncoder().setInputCol("monthIndex").setOutputCol("m
 val poutcomeEncoder = new OneHotEncoder().setInputCol("poutcomeIndex").setOutputCol("PoutcomeVec")
 
 
-// ====================================================================
-//                         Logistic Regression
-// ====================================================================
-
-
 val assembler = (new VectorAssembler()
                   .setInputCols(Array("age","JobVec","MaritalVec","EducationVec","day","monthVec","duration","campaign","pdays","previous","PoutcomeVec"))
                   .setOutputCol("features"))
 
+// ====================================================================
+//                         Multilayer Perceptron
+// ====================================================================
 
-val Array(training, test) = logregdata.randomSplit(Array(0.7, 0.3), seed = 12345)
+val splits = logregdata.randomSplit(Array(0.7, 0.3), seed = 1234L)
 
-val lr = new LogisticRegression()
+val train = splits(0)
+val test = splits(1)
 
-val pipeline = new Pipeline().setStages(Array(jobIndexer,maritalIndexer,educationIndexer,monthIndexer,poutcomeIndexer,
-                    jobEncoder,maritalEncoder,educationalEncoder,monthEncoder,poutcomeEncoder,assembler,lr))
+val layers = Array[Int](4, 5, 4, 2)
 
-val model = pipeline.fit(training)
+val trainer = new MultilayerPerceptronClassifier()
+  .setLayers(layers)
+  .setBlockSize(128)
+  .setSeed(1234L)
+  .setMaxIter(100)
 
-val results = model.transform(test)
+val model = trainer.fit(train)
 
-//Model testing
-val predictionAndLabels = results.select($"prediction",$"label").as[(Double, Double)].rdd
-val metrics = new MulticlassMetrics(predictionAndLabels)
+val result = model.transform(test)
+val predictionAndLabels = result.select("prediction", "label")
+val evaluator = new MulticlassClassificationEvaluator()
+  .setMetricName("accuracy")
 
-val evaluador = new MulticlassClassificationEvaluator().setMetricName("accuracy")
-
-println("Confusion matrix:")
-println(metrics.confusionMatrix)
-println(s"accuracy = ${evaluador.evaluate(results)}")
-
-
+println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
