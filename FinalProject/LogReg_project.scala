@@ -13,6 +13,8 @@ Logger.getLogger("org").setLevel(Level.ERROR)
 val spark = SparkSession.builder().getOrCreate()
 
 val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").option("sep",";").load("data/bank-full.csv")
+
+//Create  numerical "x" column from string "y" column
 val cols = data.select("age","job","marital","education","default","balance","housing","loan","contact","day","month","duration","campaign","pdays","previous","poutcome","y").withColumn("x", when(col("y") === "yes", 1).when(col("y") === "no", 0))
 
 cols.printSchema()
@@ -24,13 +26,15 @@ val logregdataall = (cols.select(cols("x").as("label"), $"age", $"job",
 
 val logregdata = logregdataall.na.drop()
 
+
+//Convert string values into numerical values
 val jobIndexer = new StringIndexer().setInputCol("job").setOutputCol("jobIndex")
 val maritalIndexer = new StringIndexer().setInputCol("marital").setOutputCol("maritalIndex")
 val educationIndexer = new StringIndexer().setInputCol("education").setOutputCol("educationIndex")
 val monthIndexer = new StringIndexer().setInputCol("month").setOutputCol("monthIndex")
 val poutcomeIndexer = new StringIndexer().setInputCol("poutcome").setOutputCol("poutcomeIndex")
 
-
+//Convert numerical values into OneHot Encoding 0 -1
 val jobEncoder = new OneHotEncoder().setInputCol("jobIndex").setOutputCol("JobVec")
 val maritalEncoder = new OneHotEncoder().setInputCol("maritalIndex").setOutputCol("MaritalVec")
 val educationalEncoder = new OneHotEncoder().setInputCol("educationIndex").setOutputCol("EducationVec")
@@ -55,6 +59,7 @@ val model = pipeline.fit(training)
 
 val results = model.transform(test)
 
+//Model testing
 val predictionAndLabels = results.select($"prediction",$"label").as[(Double, Double)].rdd
 val metrics = new MulticlassMetrics(predictionAndLabels)
 
