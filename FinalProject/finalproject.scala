@@ -11,6 +11,7 @@ import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.spark.ml.feature.{OneHotEncoder,IndexToString, StringIndexer}
 
 import org.apache.log4j._
 
@@ -18,7 +19,7 @@ Logger.getLogger("org").setLevel(Level.ERROR)
 
 val spark = SparkSession.builder().getOrCreate()
 
-val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("data/bank-full.csv")
+val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").option("sep",";").load("data/bank-full.csv")
 
 data.printSchema()
 data.show(1)
@@ -29,23 +30,24 @@ val depdata = data.select(data("y").as("label"), $"default", $"age", $"housing",
 
 val cleanData = depdata.na.drop()
 
- 
-val assembler = (new VectorAssembler()
-                  .setInputCols(Array("default",$"age", "housing","loan"))
-                  .setOutputCol("features"))
+val ageString = new IndexToString().setInputCol("age").setOutputCol("ageString")
+val defaultIndexer = new StringIndexer().setInputCol("default").setOutputCol("defaultIndex")
+val housingIndexer = new StringIndexer().setInputCol("housing").setOutputCol("housingIndex")
 
+val defaultEncoder = new OneHotEncoder().setInputCol("defaultIndex").setOutputCol("defaultEnc")
+val housingEncoder = new OneHotEncoder().setInputCol("housingIndex").setOutputCol("housingEnc")
 
+val assembler = (new VectorAssembler().setInputCols(Array("defaultEnc","ageString", "housingEnc","loan")).setOutputCol("features"))
 
 ///////////////////////////////
 // Logistic Regression ///////
 //////////////////////////////
 
-
 val Array(training, test) = cleanData.randomSplit(Array(0.7, 0.3), seed = 12345
 
 val lr = new LogisticRegression()
 
-val pipeline = new Pipeline().setStages(Array(assembler, lr))
+val pipeline = new Pipeline().setStages(Array(ageString, defaultIndexer, housingIndexer, defaultEncoder, housingEncoder, assembler, lr))
 
 val model = pipeline.fit(training)
 
