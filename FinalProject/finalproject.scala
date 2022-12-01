@@ -18,7 +18,7 @@ Logger.getLogger("org").setLevel(Level.ERROR)
 
 val spark = SparkSession.builder().getOrCreate()
 
-val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("bank-full.csv")
+val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("data/bank-full.csv")
 
 data.printSchema()
 data.show(1)
@@ -26,6 +26,8 @@ data.show(1)
 //val col = ("default", "housing", "loan", "y")
 
 val depdata = data.select(data("y").as("label"), $"default", $"age", $"housing", $"loan")
+
+val cleanData = depdata.na.drop()
 
  
 val assembler = (new VectorAssembler()
@@ -39,7 +41,7 @@ val assembler = (new VectorAssembler()
 //////////////////////////////
 
 
-val Array(training, test) = depdata.randomSplit(Array(0.7, 0.3), seed = 12345
+val Array(training, test) = cleanData.randomSplit(Array(0.7, 0.3), seed = 12345
 
 val lr = new LogisticRegression()
 
@@ -63,7 +65,7 @@ metrics.accuracy
 // Multilayer perceptron ///////
 //////////////////////////////
 
-val splits = depdata.randomSplit(Array(0.7, 0.3), seed = 1234)
+val splits = cleanData.randomSplit(Array(0.7, 0.3), seed = 1234)
 val train = splits(0)
 val test = splits(1)
 
