@@ -30,24 +30,27 @@ val depdata = data.select(data("y").as("label"), $"default", $"age", $"housing",
 
 val cleanData = depdata.na.drop()
 
-val ageString = new IndexToString().setInputCol("age").setOutputCol("ageString")
+val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("labelIndex")
 val defaultIndexer = new StringIndexer().setInputCol("default").setOutputCol("defaultIndex")
 val housingIndexer = new StringIndexer().setInputCol("housing").setOutputCol("housingIndex")
+val loanIndexer = new StringIndexer().setInputCol("loan").setOutputCol("loanIndex")
 
+val labelEncoder = new OneHotEncoder().setInputCol("labelIndex").setOutputCol("labelEnc")
 val defaultEncoder = new OneHotEncoder().setInputCol("defaultIndex").setOutputCol("defaultEnc")
 val housingEncoder = new OneHotEncoder().setInputCol("housingIndex").setOutputCol("housingEnc")
+val loanEncoder = new OneHotEncoder().setInputCol("loanIndex").setOutputCol("loanEnc")
 
-val assembler = (new VectorAssembler().setInputCols(Array("defaultEnc","ageString", "housingEnc","loan")).setOutputCol("features"))
+val assembler = (new VectorAssembler().setInputCols(Array("labelEnc", "defaultEnc","age", "housingEnc","loanEnc")).setOutputCol("features"))
 
 ///////////////////////////////
 // Logistic Regression ///////
 //////////////////////////////
 
-val Array(training, test) = cleanData.randomSplit(Array(0.7, 0.3), seed = 12345
+val Array(training, test) = cleanData.randomSplit(Array(0.7, 0.3), seed = 12345)
 
 val lr = new LogisticRegression()
 
-val pipeline = new Pipeline().setStages(Array(ageString, defaultIndexer, housingIndexer, defaultEncoder, housingEncoder, assembler, lr))
+val pipeline = new Pipeline().setStages(Array(labelIndexer, defaultIndexer, housingIndexer, loanIndexer, labelEncoder, defaultEncoder, housingEncoder, loanEncoder, assembler, lr))
 
 val model = pipeline.fit(training)
 
