@@ -1,56 +1,55 @@
-
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.ml.feature.VectorAssembler
-import org.apache.spark.ml.linalg.Vector
+import org.apache.spark.ml.feature.{VectorAssembler, StringIndexer, VectorIndexer, OneHotEncoder}
+import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
-import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
-import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.functions.udf
-import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
-import org.apache.spark.ml.feature.{OneHotEncoder,IndexToString, StringIndexer}
+
 
 import org.apache.log4j._
-
 Logger.getLogger("org").setLevel(Level.ERROR)
 
 val spark = SparkSession.builder().getOrCreate()
 
 val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").option("sep",";").load("data/bank-full.csv")
+val cols = data.select("age","job","marital","education","default","balance","housing","loan","contact","day","month","duration","campaign","pdays","previous","poutcome","y").withColumn("x", when(col("y") === "yes", 1).when(col("y") === "no", 0))
 
-data.printSchema()
-data.show(1)
+cols.printSchema()
 
-//val col = ("default", "housing", "loan", "y")
+cols.head(1)
 
-val depdata = data.select(data("y").as("label"), $"default", $"age", $"housing", $"loan")
+val logregdataall = (cols.select(cols("x").as("label"), $"age", $"job",
+                    $"marital", $"education", $"day", $"month", $"duration", $"campaign", $"pdays", $"previous", $"poutcome"))
 
-val cleanData = depdata.na.drop()
+val logregdata = logregdataall.na.drop()
 
-val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("labelIndex")
-val defaultIndexer = new StringIndexer().setInputCol("default").setOutputCol("defaultIndex")
-val housingIndexer = new StringIndexer().setInputCol("housing").setOutputCol("housingIndex")
-val loanIndexer = new StringIndexer().setInputCol("loan").setOutputCol("loanIndex")
+val jobIndexer = new StringIndexer().setInputCol("job").setOutputCol("jobIndex")
+val maritalIndexer = new StringIndexer().setInputCol("marital").setOutputCol("maritalIndex")
+val educationIndexer = new StringIndexer().setInputCol("education").setOutputCol("educationIndex")
+val monthIndexer = new StringIndexer().setInputCol("month").setOutputCol("monthIndex")
+val poutcomeIndexer = new StringIndexer().setInputCol("poutcome").setOutputCol("poutcomeIndex")
 
-val labelEncoder = new OneHotEncoder().setInputCol("labelIndex").setOutputCol("labelEnc")
-val defaultEncoder = new OneHotEncoder().setInputCol("defaultIndex").setOutputCol("defaultEnc")
-val housingEncoder = new OneHotEncoder().setInputCol("housingIndex").setOutputCol("housingEnc")
-val loanEncoder = new OneHotEncoder().setInputCol("loanIndex").setOutputCol("loanEnc")
 
-val assembler = (new VectorAssembler().setInputCols(Array("labelEnc", "defaultEnc","age", "housingEnc","loanEnc")).setOutputCol("features"))
+val jobEncoder = new OneHotEncoder().setInputCol("jobIndex").setOutputCol("JobVec")
+val maritalEncoder = new OneHotEncoder().setInputCol("maritalIndex").setOutputCol("MaritalVec")
+val educationalEncoder = new OneHotEncoder().setInputCol("educationIndex").setOutputCol("EducationVec")
+val monthEncoder = new OneHotEncoder().setInputCol("monthIndex").setOutputCol("monthVec")
+val poutcomeEncoder = new OneHotEncoder().setInputCol("poutcomeIndex").setOutputCol("PoutcomeVec")
 
-///////////////////////////////
-// Logistic Regression ///////
-//////////////////////////////
 
-val Array(training, test) = cleanData.randomSplit(Array(0.7, 0.3), seed = 12345)
+val assembler = (new VectorAssembler()
+                  .setInputCols(Array("age","JobVec","MaritalVec","EducationVec","day","monthVec","duration","campaign","pdays","previous","PoutcomeVec"))
+                  .setOutputCol("features"))
+
+
+val Array(training, test) = logregdata.randomSplit(Array(0.7
+, 0.3), seed = 12345)
 
 val lr = new LogisticRegression()
 
-val pipeline = new Pipeline().setStages(Array(labelIndexer, defaultIndexer, housingIndexer, loanIndexer, labelEncoder, defaultEncoder, housingEncoder, loanEncoder, assembler, lr))
+val pipeline = new Pipeline().setStages(Array(jobIndexer,maritalIndexer,educationIndexer,monthIndexer,poutcomeIndexer,
+                    jobEncoder,maritalEncoder,educationalEncoder,monthEncoder,poutcomeEncoder,assembler,lr))
 
 val model = pipeline.fit(training)
 
@@ -59,35 +58,10 @@ val results = model.transform(test)
 val predictionAndLabels = results.select($"prediction",$"label").as[(Double, Double)].rdd
 val metrics = new MulticlassMetrics(predictionAndLabels)
 
+val evaluador = new MulticlassClassificationEvaluator().setMetricName("accuracy")
+
 println("Confusion matrix:")
 println(metrics.confusionMatrix)
-
-metrics.accuracy
-
+println(s"accuracy = ${evaluador.evaluate(results)}")
 
 
-///////////////////////////////
-// Multilayer perceptron ///////
-//////////////////////////////
-
-val splits = cleanData.randomSplit(Array(0.7, 0.3), seed = 1234)
-val train = splits(0)
-val test = splits(1)
-
-val layers = Array[Int](4, 5, 4, 2)
-
-val trainer = new MultilayerPerceptronClassifier()
-  .setLayers(layers)
-  .setBlockSize(128)
-  .setSeed(1234L)
-  .setMaxIter(100)
-
-  val model = trainer.fit(train)
-
-
-val result = model.transform(test)
-val predictionAndLabels = result.select("prediction", "label")
-val evaluator = new MulticlassClassificationEvaluator()
-  .setMetricName("accuracy")
-
-println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
