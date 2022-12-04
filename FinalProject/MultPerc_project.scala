@@ -18,9 +18,9 @@ cols.printSchema()
 
 cols.head(1)
 
-val logregdataall = (cols.select(cols("x").as("label"), $"age", $"job",$"marital", $"education", $"day", $"month", $"duration", $"campaign", $"pdays", $"previous", $"poutcome"))
+val mlpdataall = (cols.select(cols("x").as("label"), $"age", $"job",$"marital", $"education", $"day", $"month", $"duration", $"campaign", $"pdays", $"previous", $"poutcome"))
 
-val logregdata = logregdataall.na.drop()
+val mlpdata = mlpdataall.na.drop()
 
 
 //Convert string values into numerical values
@@ -44,7 +44,7 @@ val assembler = new VectorAssembler().setInputCols(Array("age","JobVec","Marital
 //                         Multilayer Perceptron
 // ====================================================================
 
-val splits = logregdata.randomSplit(Array(0.7, 0.3), seed = 1234L)
+val splits = mlpdata.randomSplit(Array(0.7, 0.3), seed = 1234L)
 
 val train = splits(0)
 val test = splits(1)
