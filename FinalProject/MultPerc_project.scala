@@ -18,8 +18,7 @@ cols.printSchema()
 
 cols.head(1)
 
-val logregdataall = (cols.select(cols("x").as("label"), $"age", $"job",
-                    $"marital", $"education", $"day", $"month", $"duration", $"campaign", $"pdays", $"previous", $"poutcome"))
+val logregdataall = (cols.select(cols("x").as("label"), $"age", $"job",$"marital", $"education", $"day", $"month", $"duration", $"campaign", $"pdays", $"previous", $"poutcome"))
 
 val logregdata = logregdataall.na.drop()
 
@@ -39,9 +38,7 @@ val monthEncoder = new OneHotEncoder().setInputCol("monthIndex").setOutputCol("m
 val poutcomeEncoder = new OneHotEncoder().setInputCol("poutcomeIndex").setOutputCol("PoutcomeVec")
 
 
-val assembler = (new VectorAssembler()
-                  .setInputCols(Array("age","JobVec","MaritalVec","EducationVec","day","monthVec","duration","campaign","pdays","previous","PoutcomeVec"))
-                  .setOutputCol("features"))
+val assembler = new VectorAssembler().setInputCols(Array("age","JobVec","MaritalVec","EducationVec","day","monthVec","duration","campaign","pdays","previous","PoutcomeVec")).setOutputCol("features")
 
 // ====================================================================
 //                         Multilayer Perceptron
@@ -56,6 +53,7 @@ val layers = Array[Int](4, 5, 4, 2)
 
 val trainer = new MultilayerPerceptronClassifier()
   .setLayers(layers)
+  .setFeaturesCol("features")
   .setBlockSize(128)
   .setSeed(1234L)
   .setMaxIter(100)
@@ -64,7 +62,6 @@ val model = trainer.fit(train)
 
 val result = model.transform(test)
 val predictionAndLabels = result.select("prediction", "label")
-val evaluator = new MulticlassClassificationEvaluator()
-  .setMetricName("accuracy")
+val evaluator = new MulticlassClassificationEvaluator().setMetricName("accuracy")
 
 println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
