@@ -2,7 +2,7 @@
 ## Final Project
 ### Content menu
 + [Logistic Regression](#Logistic-regression)
-+ [Machine Learning Multilayer Perceptron](#m-achine-learning-multilayer-perceptron)
++ [Multilayer Perceptron](#multilayer-perceptron)
 
 ## Logistic Regression. 
 ##### Exercises for Final project relative to Logistic regression.
@@ -268,7 +268,7 @@ println(s"accuracy = ${evaluador.evaluate(results)}")
 accuracy = 0.9063140931731615
 ```
 
-## Machine Learning Multilayer Perceptron
+## Multilayer Perceptron
 ##### Exercises for eFinal Project relative to Machine Learning Multilayer Perceptron.
 
 Import libraries needed for  Multilayer Perceptron in Spark.
