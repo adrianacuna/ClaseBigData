@@ -1,0 +1,157 @@
+2022.11.30 10:59:33 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\admin\desktop\Bigdata\ClaseBigData\.metals\lsp.trace.json or C:\Users\admin\AppData\Local\scalameta\metals\cache\lsp.trace.json[0m
+2022.11.30 10:59:33 INFO  logging to file C:\Users\admin\Desktop\BigData\ClaseBigData\.metals\metals.log[0m
+2022.11.30 10:59:33 INFO  Started: Metals version 0.11.9 in workspace 'C:\Users\admin\Desktop\BigData\ClaseBigData' for client Visual Studio Code 1.73.1.[0m
+2022.11.30 10:59:35 INFO  time: initialize in 1.64s[0m
+2022.11.30 10:59:37 WARN  Build server is not auto-connectable.[0m
+2022.11.30 10:59:37 WARN  no build tool detected in workspace 'C:\Users\admin\Desktop\BigData\ClaseBigData'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+2022.11.30 10:59:37 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\unit2\practices\practice1.scala[0m
+2022.11.30 10:59:40 INFO  no build target found for C:\Users\admin\Desktop\BigData\ClaseBigData\unit2\practices\practice1.scala. Using presentation compiler with project's scala-library version: 3.2.0[0m
+2022.11.30 10:59:43 INFO  time: code lens generation in 5.44s[0m
+2022.11.30 13:47:29 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\unit1\practices\practica4.scala[0m
+2022.11.30 13:47:32 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\unit1\practices\practice1.scala[0m
+2022.11.30 13:47:33 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\unit1\practices\practice2.scala[0m
+2022.11.30 13:47:34 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\unit1\practices\practice3.scala[0m
+2022.11.30 13:47:38 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\unit1\practices\practice5.scala[0m
+2022.11.30 13:47:40 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\unit1\practices\practice6.scala[0m
+2022.11.30 13:47:42 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\unit1\practices\practice7.scala[0m
+nov 30, 2022 1:48:25 P. M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 48
+2022.11.30 18:19:17 INFO  shutting down Metals[0m
+2022.11.30 19:57:34 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\admin\desktop\BigData\ClaseBigData\.metals\lsp.trace.json or C:\Users\admin\AppData\Local\scalameta\metals\cache\lsp.trace.json[0m
+2022.11.30 19:57:34 INFO  logging to file C:\Users\admin\Desktop\BigData\ClaseBigData\.metals\metals.log[0m
+2022.11.30 19:57:34 INFO  Started: Metals version 0.11.9 in workspace 'C:\Users\admin\Desktop\BigData\ClaseBigData' for client Visual Studio Code 1.73.1.[0m
+2022.11.30 19:57:36 INFO  time: initialize in 1.49s[0m
+2022.11.30 19:57:38 WARN  Build server is not auto-connectable.[0m
+2022.11.30 19:57:38 WARN  no build tool detected in workspace 'C:\Users\admin\Desktop\BigData\ClaseBigData'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+2022.11.30 19:57:42 INFO  shutting down Metals[0m
+2022.11.30 20:24:17 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\admin\desktop\BigData\ClaseBigData\.metals\lsp.trace.json or C:\Users\admin\AppData\Local\scalameta\metals\cache\lsp.trace.json[0m
+2022.11.30 20:24:18 INFO  logging to file C:\Users\admin\Desktop\BigData\ClaseBigData\.metals\metals.log[0m
+2022.11.30 20:24:18 INFO  Started: Metals version 0.11.9 in workspace 'C:\Users\admin\Desktop\BigData\ClaseBigData' for client Visual Studio Code 1.73.1.[0m
+2022.11.30 20:24:19 INFO  time: initialize in 1.32s[0m
+2022.11.30 20:24:20 WARN  Build server is not auto-connectable.[0m
+2022.11.30 20:24:20 WARN  no build tool detected in workspace 'C:\Users\admin\Desktop\BigData\ClaseBigData'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+2022.11.30 20:24:20 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\FinalProject\finalproject.scala[0m
+2022.11.30 20:24:21 INFO  shutting down Metals[0m
+2022.11.30 20:24:52 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\admin\desktop\BigData\ClaseBigData\.metals\lsp.trace.json or C:\Users\admin\AppData\Local\scalameta\metals\cache\lsp.trace.json[0m
+2022.11.30 20:24:52 INFO  logging to file C:\Users\admin\Desktop\BigData\ClaseBigData\.metals\metals.log[0m
+2022.11.30 20:24:52 INFO  Started: Metals version 0.11.9 in workspace 'C:\Users\admin\Desktop\BigData\ClaseBigData' for client Visual Studio Code 1.73.1.[0m
+2022.11.30 20:24:57 INFO  time: initialize in 4.72s[0m
+2022.11.30 20:24:59 WARN  Build server is not auto-connectable.[0m
+2022.11.30 20:24:59 WARN  no build tool detected in workspace 'C:\Users\admin\Desktop\BigData\ClaseBigData'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+2022.11.30 20:24:59 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\FinalProject\finalproject.scala[0m
+2022.11.30 20:25:01 INFO  no build target found for C:\Users\admin\Desktop\BigData\ClaseBigData\FinalProject\finalproject.scala. Using presentation compiler with project's scala-library version: 3.2.0[0m
+2022.11.30 20:25:04 INFO  time: code lens generation in 2.71s[0m
+2022.11.30 20:25:04 INFO  time: code lens generation in 5.12s[0m
+2022.11.30 20:33:35 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\FinalProject\finalproject.scala[0m
+nov 30, 2022 8:34:24 P. M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 112
+nov 30, 2022 8:37:27 P. M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 141
+Exception in thread "pool-3-thread-1" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.onCompilerJobQueue$$anonfun$1(CompilerAccess.scala:195)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:152)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+2022.11.30 20:38:06 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\FinalProject\finalproject.scala[0m
+nov 30, 2022 9:35:25 P. M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 242
+2022.11.30 21:39:17 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\FinalProject\finalproject.scala[0m
+nov 30, 2022 9:52:36 P. M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1190
+Exception in thread "pool-3-thread-2" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.onCompilerJobQueue$$anonfun$1(CompilerAccess.scala:195)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:152)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+nov 30, 2022 9:54:00 P. M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1272
+2022.11.30 21:54:11 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\FinalProject\finalproject.scala[0m
+Exception in thread "pool-3-thread-3" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.onCompilerJobQueue$$anonfun$1(CompilerAccess.scala:195)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:152)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+nov 30, 2022 10:01:32 P. M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1655
+nov 30, 2022 10:01:34 P. M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1662
+nov 30, 2022 10:01:36 P. M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1668
+nov 30, 2022 10:01:57 P. M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1813
+2022.11.30 22:02:00 INFO  shutting down Metals[0m
+2022.11.30 22:02:36 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\admin\desktop\BigData\ClaseBigData\.metals\lsp.trace.json or C:\Users\admin\AppData\Local\scalameta\metals\cache\lsp.trace.json[0m
+2022.11.30 22:02:37 INFO  logging to file C:\Users\admin\Desktop\BigData\ClaseBigData\.metals\metals.log[0m
+2022.11.30 22:02:37 INFO  Started: Metals version 0.11.9 in workspace 'C:\Users\admin\Desktop\BigData\ClaseBigData' for client Visual Studio Code 1.73.1.[0m
+2022.11.30 22:02:39 INFO  time: initialize in 2.1s[0m
+2022.11.30 22:02:41 WARN  Build server is not auto-connectable.[0m
+2022.11.30 22:02:41 WARN  no build tool detected in workspace 'C:\Users\admin\Desktop\BigData\ClaseBigData'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+2022.11.30 22:02:41 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\FinalProject\finalproject.scala[0m
+nov 30, 2022 10:02:42 P. M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1
+2022.11.30 22:02:46 INFO  no build target found for C:\Users\admin\Desktop\BigData\ClaseBigData\FinalProject\finalproject.scala. Using presentation compiler with project's scala-library version: 3.2.0[0m
+2022.11.30 22:02:48 INFO  time: code lens generation in 6.33s[0m
+2022.11.30 22:03:20 INFO  shutting down Metals[0m
+2022.12.05 11:59:35 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\admin\desktop\bigdata\clasebigdata\.metals\lsp.trace.json or C:\Users\admin\AppData\Local\scalameta\metals\cache\lsp.trace.json[0m
+2022.12.05 11:59:36 INFO  logging to file C:\Users\admin\Desktop\BigData\ClaseBigData\.metals\metals.log[0m
+2022.12.05 11:59:36 INFO  Started: Metals version 0.11.9 in workspace 'C:\Users\admin\Desktop\BigData\ClaseBigData' for client Visual Studio Code 1.73.1.[0m
+2022.12.05 11:59:39 INFO  time: initialize in 3.13s[0m
+dic 05, 2022 11:59:39 A. M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleNotification
+WARNING: Notification threw an exception: {
+  "jsonrpc": "2.0",
+  "method": "textDocument/didOpen",
+  "params": {
+    "textDocument": {
+      "uri": "file:///c%3A/Users/admin/desktop/BigData/ClaseBigData/FinalProject/finalproject.scala",
+      "languageId": "scala",
+      "version": 1,
+      "text": "\r\nimport org.apache.spark.ml.classification.LogisticRegression\r\nimport org.apache.spark.sql.SparkSession\r\nimport org.apache.spark.ml.feature.VectorAssembler\r\nimport org.apache.spark.ml.linalg.Vector\r\nimport org.apache.spark.ml.Pipeline\r\nimport org.apache.spark.mllib.evaluation.MulticlassMetrics\r\nimport org.apache.spark.ml.classification.MultilayerPerceptronClassifier\r\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\r\nimport org.apache.spark.ml.feature.{OneHotEncoder,IndexToString, StringIndexer}\r\n\r\n\r\nimport org.apache.log4j._\r\n\r\nLogger.getLogger(\"org\").setLevel(Level.ERROR)\r\n\r\nval spark \u003d SparkSession.builder().getOrCreate()\r\n\r\nval data \u003d spark.read.option(\"header\",\"true\").option(\"inferSchema\", \"true\").format(\"csv\").option(\"sep\",\";\").load(\"data/bank-full.csv\")\r\n\r\ndata.printSchema()\r\ndata.show(1)\r\n\r\n\r\nval splits \u003d cleanData.randomSplit(Array(0.7, 0.3), seed \u003d 1234)\r\nval train \u003d splits(0)\r\nval test \u003d splits(1)\r\n\r\nval layers \u003d Array[Int](4, 5, 4, 2)\r\n\r\nval trainer \u003d new MultilayerPerceptronClassifier()\r\n  .setLayers(layers)\r\n  .setBlockSize(128)\r\n  .setSeed(1234L)\r\n  .setMaxIter(100)\r\n\r\n  val model \u003d trainer.fit(train)\r\n\r\n\r\nval result \u003d model.transform(test)\r\nval predictionAndLabels \u003d result.select(\"prediction\", \"label\")\r\nval evaluator \u003d new MulticlassClassificationEvaluator()\r\n  .setMetricName(\"accuracy\")\r\n\r\nprintln(s\"Test set accuracy \u003d ${evaluator.evaluate(predictionAndLabels)}\")"
+    }
+  }
+}
+java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:67)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.notify(GenericEndpoint.java:152)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleNotification(RemoteEndpoint.java:220)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:187)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:194)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:94)
+	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:113)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:65)
+	... 11 more
+Caused by: java.nio.file.NoSuchFileException: c:\Users\admin\desktop\BigData\ClaseBigData\FinalProject\finalproject.scala
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:85)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:235)
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:371)
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:422)
+	at java.base/java.nio.file.Files.readAllBytes(Files.java:3206)
+	at scala.meta.internal.io.PlatformFileIO$.slurp(PlatformFileIO.scala:45)
+	at scala.meta.internal.io.FileIO$.slurp(FileIO.scala:24)
+	at scala.meta.internal.metals.MetalsLanguageServer.didOpen(MetalsLanguageServer.scala:1085)
+	... 16 more
+
+2022.12.05 11:59:43 WARN  Build server is not auto-connectable.[0m
+2022.12.05 11:59:43 WARN  no build tool detected in workspace 'C:\Users\admin\Desktop\BigData\ClaseBigData'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+2022.12.05 12:22:42 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\FinalProject\MultPerc_project.scala[0m
+2022.12.05 12:22:45 INFO  no build target found for C:\Users\admin\Desktop\BigData\ClaseBigData\FinalProject\MultPerc_project.scala. Using presentation compiler with project's scala-library version: 3.2.0[0m
+2022.12.05 12:22:45 WARN  no build target for: C:\Users\admin\Desktop\BigData\ClaseBigData\FinalProject\LogReg_project.scala[0m
+2022.12.05 12:22:47 INFO  time: code lens generation in 4.09s[0m
+2022.12.05 12:22:47 INFO  time: code lens generation in 1.57s[0m
