@@ -52,7 +52,7 @@ val assembler = (new VectorAssembler()
                   .setOutputCol("features"))
 
 
-val Array(training, test) = logregdata.randomSplit(Array(0.7, 0.3), seed = 12345)
+val Array(training, test) = logregdata.randomSplit(Array(0.6, 0.5), seed = 12345)
 
 val lr = new LogisticRegression()
 
