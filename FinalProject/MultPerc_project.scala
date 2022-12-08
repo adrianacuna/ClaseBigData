@@ -12,6 +12,12 @@ val spark = SparkSession.builder().getOrCreate()
 
 val data  = spark.read.option("header","true").option("inferSchema", "true").format("csv").option("sep",";").load("data/bank-full.csv")
 
+data.printSchema()
+
+data.show(5)
+
+data.describe().show()
+
 //Convert string values into numerical values
 val jobIndexer = new StringIndexer().setInputCol("job").setOutputCol("jobIndex")
 val maritalIndexer = new StringIndexer().setInputCol("marital").setOutputCol("maritalIndex")
